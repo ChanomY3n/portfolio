@@ -96,13 +96,57 @@ const IMAGE_SIZES = {
 1582,
 660
 ],
+"images/projects/good-money/adjust-loan.webp": [
+750,
+1698
+],
+"images/projects/good-money/calculator.webp": [
+750,
+3780
+],
 "images/projects/good-money/cover.webp": [
 2000,
 1125
 ],
-"images/projects/good-money/screen.webp": [
-2000,
-857
+"images/projects/good-money/ds-buttons.webp": [
+1402,
+1664
+],
+"images/projects/good-money/ds-colours.webp": [
+1402,
+1137
+],
+"images/projects/good-money/ds-fields.webp": [
+1941,
+1072
+],
+"images/projects/good-money/ds-logo.webp": [
+1402,
+896
+],
+"images/projects/good-money/ds-modals.webp": [
+1280,
+974
+],
+"images/projects/good-money/home.webp": [
+750,
+1624
+],
+"images/projects/good-money/id-card.webp": [
+750,
+1624
+],
+"images/projects/good-money/loan-approved.webp": [
+750,
+1794
+],
+"images/projects/good-money/register-otp.webp": [
+750,
+1624
+],
+"images/projects/good-money/review.webp": [
+750,
+1624
 ],
 "images/projects/insurverse/cover.webp": [
 2000,

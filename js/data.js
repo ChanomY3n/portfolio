@@ -666,32 +666,109 @@ const PROJECTS = [
   {
     id: "good-money",
     title: "Good Money",
+    subtitle: "Personal loan app",
     client: "Government Savings Bank (GSB)",
     category: "FinTech · Loan app",
-    tags: ["Mobile app", "Personal loan", "Finance"],
+    tags: ["Mobile app", "Personal loan", "eKYC"],
     accent: "#E4277B",
     cover: "images/projects/good-money/cover.webp",
     hero: "images/projects/good-money/cover.webp",
-    summary: "A personal-loan mobile app where people can calculate the loan amount and repayments before they apply.",
+    summary: "A personal-loan mobile app where people can work out the loan amount and monthly repayment before they apply, then register, get approved and manage the loan.",
     overview: { role: "UX/UI Designer at Extend IT Resource", scope: TODO, team: TODO, duration: TODO, platform: "Mobile app", status: TODO, tools: TODO },
-    problem: { context: `<p>Users can simulate a payment schedule by choosing their occupation, income and loan conditions in advance. The app also covers applying for a loan and tracking repayments.</p>` },
+    problem: {
+      context: `<p>Borrowing is a big decision, and most people want to know two things before they share any personal data: how much can I borrow, and how much will I pay each month?</p>
+                <p>The app answers both up front with a calculator that anyone can use without an account. Registration, identity checks with the national ID card, approval and choosing the final amount come after.</p>`
+    },
+    decisions: [
+      {
+        title: "Let people calculate before they register",
+        problem: "Asking for a phone number and ID card before showing any numbers makes people hesitate, especially for a loan.",
+        approach: "The calculator is open to everyone. In three numbered steps people choose their occupation, the type of loan, and the amount and term, and the monthly repayment updates right away. Register / Log in stays at the bottom for when they are ready.",
+        why: "People see what the loan means for them before committing, so the ones who register already know what to expect. The trade-off is that some people will calculate and leave without registering.",
+        image: { src: "images/projects/good-money/calculator.webp", caption: "Loan calculator: occupation, loan type, then amount and term", phone: true,
+          pins: [
+            { x: 70, y: 17, text: "Choose your occupation from illustrated cards" },
+            { x: 92, y: 38.4, text: "Each loan product expands to show its conditions" },
+            { x: 92, y: 60.5, text: "Lump sum or revolving credit, as two cards" },
+            { x: 92, y: 71.5, text: "Adjust the amount with − and +, the term with a slider" },
+            { x: 92, y: 89.7, text: "The monthly repayment, as the biggest number on the screen" }
+          ] }
+      },
+      {
+        title: "Fill identity details from the ID card, then confirm",
+        problem: "Typing a 13-digit ID number, names in Thai and English, dates and an address on a phone is slow and easy to get wrong.",
+        approach: "People take a photo of their ID card, and the fields are filled from it. A review screen then lists everything from the card for one last check. A note at the top says the data is kept private under the personal data policy.",
+        why: "Less typing and fewer mistakes, and the review step catches anything read wrongly. The trade-off is that people have to have their ID card at hand.",
+        image: { src: "images/projects/good-money/id-card.webp", caption: "ID card details filled from a photo", phone: true,
+          pins: [
+            { x: 8, y: 18.8, text: "Reassurance that the data is kept private" },
+            { x: 50, y: 37.6, text: "Photo of the ID card" },
+            { x: 62, y: 49, text: "Retake the photo if it is unclear" },
+            { x: 8, y: 59.7, text: "Fields filled from the card, still editable" }
+          ] }
+      },
+      {
+        title: "Confirm the approved amount, or change it",
+        problem: "The approved limit is not always what people want to borrow, and the repayment depends on the amount, term and due date.",
+        approach: "After approval the loan card shows the approved limit, the number of instalments, the interest rate, the monthly payment and the due date, with Confirm and Edit. Edit opens a screen to choose lump sum or revolving credit, the amount, the term and one of three due dates, with the monthly payment shown underneath.",
+        why: "People accept the loan knowing exactly what they will pay, and can lower the amount instead of dropping out. The trade-off is one more screen for those who change it.",
+        image: { src: "images/projects/good-money/adjust-loan.webp", caption: "Adjust the amount, term and due date", phone: true,
+          pins: [
+            { x: 27, y: 37, text: "Lump sum or revolving credit" },
+            { x: 8, y: 55.7, text: "Amount with − and +" },
+            { x: 8, y: 79.9, text: "Pick one of three due dates" },
+            { x: 50, y: 86.6, text: "The monthly payment updates with every change" }
+          ] }
+      }
+    ],
     finalDesign: [
       {
-        title: "Calculate, apply and track",
-        text: "Four screens follow the journey: work out how much you can borrow, see the loan offer on the home screen, confirm the result, and check the outstanding balance and payments.",
+        title: "Register",
+        text: "Registration starts with a phone number and OTP, then the ID card, then a review of everything before confirming.",
         shots: [
-          { src: "images/projects/good-money/screen.webp", caption: "Loan calculator, home, application result and loan detail",
+          { src: "images/projects/good-money/register-otp.webp", caption: "Register with phone number and OTP (phone number blurred)", phone: true,
             pins: [
-              { x: 5, y: 17, text: "Step 1 of the calculator: choose your occupation" },
-              { x: 38, y: 22, text: "The loan offer and an Apply button on the home screen" },
-              { x: 61, y: 49, text: "A clear result with the approved amount" },
-              { x: 91, y: 32, text: "Outstanding loan with a Pay button" },
-              { x: 91, y: 90, text: "Pay is the centre button in the tab bar" }
+              { x: 95, y: 31, text: "Send OTP next to the phone number" },
+              { x: 8, y: 47.8, text: "OTP with its reference code" },
+              { x: 8, y: 81.9, text: "Link to the privacy policy" }
+            ] },
+          { src: "images/projects/good-money/review.webp", caption: "Review registration details (personal data blurred)", phone: true,
+            pins: [
+              { x: 8, y: 26, text: "Everything from the ID card in one list" },
+              { x: 94, y: 93, text: "Confirm once everything is correct" }
+            ] }
+        ]
+      },
+      {
+        title: "Home and my loan",
+        text: "The home screen leads with the recommended loan and an Apply button, with shortcuts to the calculator, invite a friend, chat and FAQ. My loan is the centre button in the tab bar.",
+        shots: [
+          { src: "images/projects/good-money/home.webp", caption: "Home", phone: true,
+            pins: [
+              { x: 92, y: 38, text: "Apply straight from the recommended loan" },
+              { x: 14, y: 56.6, text: "Shortcut to the loan calculator" },
+              { x: 50, y: 91, text: "My loan is the centre of the tab bar" }
+            ] },
+          { src: "images/projects/good-money/loan-approved.webp", caption: "My loan: approved limit and terms", phone: true,
+            pins: [
+              { x: 8, y: 53.4, text: "The approved limit stands out" },
+              { x: 92, y: 74.9, text: "Confirm the loan" },
+              { x: 92, y: 80.8, text: "Or edit the amount and term" }
             ] }
         ]
       }
     ],
-    notes: "เว็บเดิม: ผู้ใช้สูงอายุ/ทักษะดิจิทัลต่ำ, ปุ่มใหญ่ contrast สูง, user research — ยังไม่ยืนยัน ไม่แสดง"
+    designSystem: {
+      text: "A small design system for the app: brand colours with matching background tints for each status, the logo in colour and in black and white, buttons in default, active and disabled states, form fields with default, filled and error states, and modals for success, errors and confirmations.",
+      items: [
+        { src: "images/projects/good-money/ds-colours.webp", caption: "Colours: primary, secondary, status colours and the brand gradient" },
+        { src: "images/projects/good-money/ds-logo.webp", caption: "Logo in colour, black and white" },
+        { src: "images/projects/good-money/ds-buttons.webp", caption: "Buttons: default, active and disabled, in two widths" },
+        { src: "images/projects/good-money/ds-fields.webp", caption: "Fields: dropdown and text fields with default, filled and error states" },
+        { src: "images/projects/good-money/ds-modals.webp", caption: "Modals: error, success and photo confirmation" }
+      ]
+    },
+    notes: "เว็บเดิม: ผู้สูงอายุ/ทักษะดิจิทัลต่ำ, ปุ่มใหญ่ contrast สูง, user research — ยังไม่ยืนยัน ไม่แสดง · ID card ใน id-card.webp เป็นบัตรตัวอย่าง"
   },
   {
     id: "smart-ticket",
