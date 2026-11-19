@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sanpetch Meejue — UX/UI Designer Portfolio</title>
+  <meta name="description" content="UX/UI Designer portfolio: case studies from planning to handoff.">
+
+  <link rel="stylesheet" href="css/style.css?v=84">
+
+  <!-- ตัดสินใจก่อนหน้าเว็บแสดงผล ว่าจะเปิดแอนิเมชันไหม (ดูจากการตั้งค่าเครื่อง: Windows → Animation effects) -->
+  <script>
+    try {
+      // เปิดแอนิเมชันทุกครั้งที่เข้าเว็บ ยกเว้นเครื่องที่ตั้ง "ลดการเคลื่อนไหว" ไว้
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("motion-off");
+    } catch (e) {}
+  </script>
+</head>
+<body class="page-map">
+
+  <!-- ลิงก์ซ่อน: คนที่ใช้คีย์บอร์ดกด Tab ครั้งแรกจะเห็น → ข้ามแผนที่ไปดูแบบรายการได้ทันที -->
+  <a class="skip-link" href="#quick" data-open="quick">Skip the map — view as list</a>
+
+  <!-- ===== ส่วนหัว (HUD) ลอยอยู่บนแผนที่ ===== -->
+  <header class="hud">
+    <div class="hud-id plaque-wood">
+      <img class="hud-photo" src="images/profile/sanpetch.webp" alt="" width="48" height="48">
+      <div>
+        <p class="hud-name">Sanpetch Meejue</p>
+        <p class="hud-role">UX/UI Designer · <strong>Open to work</strong></p>
+      </div>
+    </div>
+    <nav class="hud-nav" aria-label="Main">
+      <button type="button" class="btn btn-ghost" data-open="quick">View as list</button>
+      <button type="button" class="btn btn-seal" data-open="contact">Contact me</button>
+    </nav>
+  </header>
+
+  <!-- ===== แผนที่ =====
+       map-viewport = กรอบที่มองเห็น (เต็มจอ)
+       map-world    = โลกขนาด 1586×992 ที่เลื่อน/ซูมได้ (JavaScript ขยับมัน)
+
+       วิธีทำ "ชี้แล้วอาคารขยาย":
+       1. map-full.webp = แผนที่เต็ม (อาคารขนาดปกติ)
+       2. hover-xxx.webp = ภาพเฉพาะส่วนอาคารที่ขยายแล้ว ตัดมาจากภาพที่คุณทำ วางทับตรงตำแหน่งเดิมพอดี
+          ปกติซ่อนไว้ (opacity: 0) → เมื่อเมาส์ชี้ปุ่มของอาคารนั้น จะค่อยๆ โผล่ขึ้นมา
+       3. ปุ่ม (hotspot) = พื้นที่โปร่งใสที่กดได้ วางทับตัวอาคาร
+       ตัวเลข left / top / width / height = พิกัดเป็นพิกเซลบนภาพแผนที่ -->
+  <main class="map-viewport" id="map" aria-label="Portfolio map. Select a building to open a section.">
+    <div class="parallax">
+    <div class="map-world" id="world">
+      <img class="map-bg" src="images/map/map-full.webp" alt="" width="1586" height="992" draggable="false">
+
+      <!-- ภาพอาคารขยาย (ซ่อนไว้ก่อน) -->
+      <img class="hover-art" data-for="works"   src="images/map/hover-works.webp"   alt="" draggable="false" style="left:550px;  top:4px;   width:359px; height:354px">
+      <img class="hover-art" data-for="certs"   src="images/map/hover-certs.webp"   alt="" draggable="false" style="left:188px;  top:227px; width:355px; height:372px">
+      <img class="hover-art" data-for="about"   src="images/map/hover-about.webp"   alt="" draggable="false" style="left:572px;  top:488px; width:361px; height:336px">
+      <img class="hover-art" data-for="contact" src="images/map/hover-contact.webp" alt="" draggable="false" style="left:1020px; top:68px;  width:367px; height:349px">
+      <img class="hover-art" data-for="novels"  src="images/map/hover-novels.webp"  alt="" draggable="false" style="left:1142px; top:293px; width:335px; height:357px">
+
+      <!-- ปุ่มของอาคาร: ข้อความในปุ่มซ่อนจากสายตา (ป้ายอยู่ในภาพแล้ว) แต่โปรแกรมอ่านหน้าจอยังอ่านได้ -->
+      <button type="button" class="hotspot" data-open="works"   style="left:570px;  top:20px;  width:320px; height:325px; --x:730px;  --y:260px"><span class="sr-only">UX/UI Works</span></button>
+      <button type="button" class="hotspot" data-open="certs"   style="left:215px;  top:260px; width:305px; height:325px; --x:367px;  --y:500px"><span class="sr-only">Certificates</span></button>
+      <button type="button" class="hotspot" data-open="about"   style="left:590px;  top:515px; width:325px; height:295px; --x:752px;  --y:735px"><span class="sr-only">About me</span></button>
+      <button type="button" class="hotspot" data-open="contact" style="left:1040px; top:85px;  width:300px; height:235px; --x:1205px; --y:325px"><span class="sr-only">Contact</span></button>
+      <button type="button" class="hotspot" data-open="novels"  style="left:1170px; top:330px; width:285px; height:300px; --x:1310px; --y:560px"><span class="sr-only">Novels</span></button>
+    </div>
+    </div>
+
+    <!-- หมอกเปิดฉากตอนเข้าเว็บ (ค่อยๆ จางหายไป) -->
+    <div class="intro-mist" aria-hidden="true"></div>
+  </main>
+
+  <!-- ปุ่มควบคุมแผนที่ -->
+  <div class="map-controls" role="group" aria-label="Map controls">
+    <!-- ปุ่มเปิด/ปิดเพลง (เพลงไม่เล่นเองจนกว่าจะกดปุ่มนี้) -->
+    <button type="button" class="btn-icon" id="music-toggle" aria-pressed="false" aria-label="Sound and music" title="Sound & music on/off">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+    </button>
+    <!-- ปุ่มเปิด/ปิดแอนิเมชัน (WCAG: ของที่ขยับเองต้องหยุดได้) -->
+    <button type="button" class="btn-icon" id="motion-toggle" aria-pressed="true" aria-label="Animations" title="Animations on/off">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+    </button>
+    <button type="button" class="btn-icon" id="zoom-out" aria-label="Zoom out">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>
+    </button>
+    <button type="button" class="btn-icon" id="zoom-reset" aria-label="Show whole map">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+    </button>
+    <button type="button" class="btn-icon" id="zoom-in" aria-label="Zoom in">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>
+    </button>
+  </div>
+  <p class="map-hint plaque-paper">Drag to explore · select a building</p>
+
+  <!-- ===== ระบบเกม (ทำงานด้วย js/game.js) ===== -->
+
+  <!-- Quest Log: ภารกิจสำรวจ (มุมซ้าย ใต้ป้ายชื่อ) -->
+  <aside class="quest" id="quest" aria-label="Quest log">
+    <button type="button" class="quest-toggle" id="quest-toggle" aria-expanded="true" aria-controls="quest-list">
+      <span class="quest-title">Quest · Explore the realm</span>
+      <span class="quest-count" id="quest-count">0/4</span>
+    </button>
+    <ol class="quest-list" id="quest-list"></ol>
+    <div class="quest-foot">
+      <button type="button" class="link-btn" id="npc-replay">Talk to the guide</button>
+      <button type="button" class="link-btn" id="quest-reset">Reset quest</button>
+    </div>
+  </aside>
+
+  <!-- NPC ผู้นำทาง: กล่องบทสนทนาด้านล่างจอ -->
+  <section class="npc" id="npc" aria-label="Guide" hidden>
+    <img class="npc-portrait" src="images/decor/crane.webp" alt="">
+    <div class="npc-body">
+      <p class="npc-name">Crane Messenger</p>
+      <!-- ตัวหนังสือที่ค่อยๆ พิมพ์ (ซ่อนจากโปรแกรมอ่านหน้าจอ) + ข้อความเต็ม (ให้โปรแกรมอ่านหน้าจออ่าน) -->
+      <p class="npc-text"><span class="npc-typed" aria-hidden="true"></span><span class="sr-only" id="npc-full" aria-live="polite"></span></p>
+      <div class="npc-actions">
+        <button type="button" class="btn btn-ghost" id="npc-skip">Skip</button>
+        <button type="button" class="btn btn-seal" id="npc-next">Next ▸</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Achievement: เด้งขึ้นเมื่อทำภารกิจครบ -->
+  <div class="achievement" id="achievement" role="status" hidden>
+    <svg class="achievement-medal" viewBox="0 0 48 48" aria-hidden="true">
+      <path d="M16 4h16l-4 14h-8z" fill="#A3301C"/>
+      <circle cx="24" cy="30" r="14" fill="#E9B84A" stroke="#7E5A12" stroke-width="2.5"/>
+      <path d="M24 21l2.8 5.7 6.2.9-4.5 4.4 1 6.2L24 35.3l-5.5 2.9 1-6.2-4.5-4.4 6.2-.9z" fill="#FFF3C8"/>
+    </svg>
+    <div class="achievement-text">
+      <p class="achievement-kicker">Achievement unlocked</p>
+      <p class="achievement-title">Explorer of the Realm</p>
+      <p>You have seen the whole journey. Ready to talk?</p>
+    </div>
+    <div class="achievement-actions">
+      <button type="button" class="btn btn-seal" data-open="contact">Send a message</button>
+      <button type="button" class="btn-icon" data-dismiss aria-label="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       แผง (dialog) — เปิดเมื่อกดอาคาร
+       <dialog> เป็นแท็กมาตรฐานของ HTML: กด Esc ปิดได้เอง และล็อกโฟกัสไว้ในแผงให้อัตโนมัติ
+       เนื้อหาในแผงสร้างจาก data.js ด้วย main.js
+       ========================================================= -->
+
+  <!-- แผงผลงาน UX/UI -->
+  <dialog class="panel" id="works" aria-labelledby="works-title">
+    <div class="panel-head">
+      <button type="button" class="btn btn-ghost btn-back" data-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg> Back to map
+      </button>
+      <h2 class="sign" id="works-title">UX/UI Works</h2>
+      <span class="panel-head-spacer"></span>
+    </div>
+    <p class="panel-lead">Every project is told step by step — from planning to developer handoff.</p>
+    <ul class="work-grid" id="work-grid"></ul>
+  </dialog>
+
+  <!-- แผงใบรับรอง -->
+  <dialog class="panel" id="certs" aria-labelledby="certs-title">
+    <div class="panel-head">
+      <button type="button" class="btn btn-ghost btn-back" data-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg> Back to map
+      </button>
+      <h2 class="sign" id="certs-title">Certificates</h2>
+      <span class="panel-head-spacer"></span>
+    </div>
+    <p class="panel-lead">Courses and certificates that keep my skills sharp.</p>
+    <ul class="cert-grid" id="cert-grid"></ul>
+  </dialog>
+
+  <!-- แผงนิยาย -->
+  <dialog class="panel" id="novels" aria-labelledby="novels-title">
+    <div class="panel-head">
+      <button type="button" class="btn btn-ghost btn-back" data-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg> Back to map
+      </button>
+      <h2 class="sign" id="novels-title">Novels</h2>
+      <span class="panel-head-spacer"></span>
+    </div>
+    <p class="panel-lead"><span>Outside of design, I write fiction in Thai as <strong>Howzler</strong>. Read them on Dek-D.</span></p>
+    <ul class="novel-grid" id="novel-grid"></ul>
+  </dialog>
+
+  <!-- แผง About -->
+  <dialog class="panel" id="about" aria-labelledby="about-title">
+    <div class="panel-head">
+      <button type="button" class="btn btn-ghost btn-back" data-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg> Back to map
+      </button>
+      <h2 class="sign" id="about-title">About me</h2>
+      <span class="panel-head-spacer"></span>
+    </div>
+    <div id="about-body" class="about"></div>
+  </dialog>
+
+  <!-- แผง Contact -->
+  <dialog class="panel panel-small" id="contact" aria-labelledby="contact-title">
+    <div class="panel-head">
+      <button type="button" class="btn btn-ghost btn-back" data-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg> Back
+      </button>
+      <h2 class="sign" id="contact-title">Contact</h2>
+      <span class="panel-head-spacer"></span>
+    </div>
+    <div id="contact-body"></div>
+  </dialog>
+
+  <!-- แผง View as list: ทุกอย่างในเว็บแบบรายการธรรมดา (สำหรับคนรีบ / ใช้คีย์บอร์ด / โปรแกรมอ่านหน้าจอ) -->
+  <dialog class="panel" id="quick" aria-labelledby="quick-title">
+    <div class="panel-head">
+      <button type="button" class="btn btn-ghost btn-back" data-close>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg> Back to map
+      </button>
+      <h2 class="sign" id="quick-title">Quick view</h2>
+      <span class="panel-head-spacer"></span>
+    </div>
+    <div id="quick-body" class="quick"></div>
+  </dialog>
+
+  <!-- ดูใบรับรองเต็มจอ (Lightbox) — ทำงานด้วย main.js ส่วนที่ 5 -->
+  <dialog class="lightbox" id="lightbox" aria-label="Image viewer">
+    <button type="button" class="lb-btn lb-close" id="lightbox-close" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <button type="button" class="lb-btn lb-prev" id="lightbox-prev" aria-label="Previous image">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="lightbox-stage">
+      <img id="lightbox-img" src="" alt="">
+    </div>
+    <button type="button" class="lb-btn lb-next" id="lightbox-next" aria-label="Next image">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <p class="lightbox-caption" id="lightbox-caption" aria-live="polite"></p>
+  </dialog>
+
+  <!-- ลำดับสำคัญ: data.js ต้องมาก่อน main.js เพราะ main.js ใช้ข้อมูลจาก data.js
+       ?v=3 ท้ายชื่อไฟล์ = เลขเวอร์ชัน ทุกครั้งที่แก้ CSS/JS ให้เปลี่ยนเลขนี้ (เช่น v=4)
+       เบราว์เซอร์จะรู้ว่าเป็นไฟล์ใหม่ และไม่ใช้ไฟล์เก่าที่จำไว้ (cache) -->
+  <script src="js/data.js?v=84"></script>
+  <script src="js/main.js?v=84"></script>
+  <script src="js/player.js?v=84"></script>
+  <script src="js/ambient.js?v=84"></script>
+  <script src="js/game.js?v=84"></script>
+  <script src="js/music.js?v=84"></script>
+</body>
+</html>

@@ -1,0 +1,1152 @@
+/* =========================================================
+   style.css — หน้าตาทั้งหมดของเว็บ
+   ---------------------------------------------------------
+   ส่วนที่ 1: ตัวแปรสีและฟอนต์ (แก้ที่นี่ที่เดียว ทั้งเว็บเปลี่ยนตาม)
+   ส่วนที่ 2: พื้นฐาน + ปุ่ม + ป้าย
+   ส่วนที่ 3: หน้าแผนที่
+   ส่วนที่ 4: แผง (dialog) และการ์ด
+   ส่วนที่ 5: หน้ารายละเอียดผลงาน (project.html)
+   ส่วนที่ 6: มือถือ + คนที่ปิดแอนิเมชัน
+   ========================================================= */
+
+/* ---------- 0. ฟอนต์ Itim (เก็บไฟล์ไว้ในเว็บเอง: fonts/Itim-Regular.woff2)
+   รองรับทั้งภาษาอังกฤษและภาษาไทย → ตอนเพิ่มภาษาไทยภายหลังใช้ฟอนต์เดิมได้เลย
+   Itim มีแค่น้ำหนักปกติ (Regular) ตัวหนาในเว็บจึงเป็นตัวหนาที่เบราว์เซอร์สร้างให้
+   ลิขสิทธิ์: SIL Open Font License 1.1 — ใช้บนเว็บได้ฟรี ---------- */
+@font-face {
+  font-family: "Itim";
+  src: url("../fonts/Itim-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;   /* แสดงข้อความด้วยฟอนต์สำรองก่อน แล้วสลับเป็น Itim เมื่อโหลดเสร็จ */
+}
+
+/* ---------- 1. ตัวแปร (CSS variables) ---------- */
+:root {
+  --paper: #F6EDD9;        /* กระดาษสา: พื้นแผง */
+  --paper-2: #EFE2C6;      /* กระดาษเข้มขึ้น: การ์ด */
+  --ink: #2B2118;          /* หมึก: ตัวหนังสือหลัก */
+  --ink-soft: #5A4A3A;     /* หมึกจาง: ตัวหนังสือรอง (ผ่าน 4.5:1 บนกระดาษ) */
+  --vermilion: #A3301C;    /* ชาด: สีเน้น / ตราประทับ */
+  --vermilion-dark: #7E2414;
+  --jade: #2F5D50;         /* หยก: สีรอง */
+  --gold: #B8862B;         /* ทอง: เส้นตกแต่ง (ไม่ใช้กับตัวหนังสือ) */
+  --wood: #4A2E1C;         /* ไม้: ป้ายชื่อ */
+  --wood-light: #6B4429;
+  --wood-text: #FBF3E2;
+
+  --font-head: "Itim", system-ui, sans-serif;
+  --font-body: "Itim", system-ui, sans-serif;
+
+  --radius: 10px;
+  --shadow: 0 10px 30px rgba(43, 33, 24, .28);
+}
+
+/* ---------- 2. พื้นฐาน ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper) url("../images/ui/paper-texture.webp");
+  line-height: 1.6;
+}
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: var(--font-head); font-weight: 400; line-height: 1.2; margin: 0; }
+p { margin: 0; }
+a { color: var(--vermilion); }
+a:hover { color: var(--vermilion-dark); }
+
+/* วงแหวนโฟกัส: เห็นชัดเมื่อใช้คีย์บอร์ด (สำคัญมากสำหรับ WCAG) */
+:focus-visible { outline: 3px solid var(--vermilion); outline-offset: 3px; }
+
+/* ลิงก์ข้ามแผนที่: ซ่อนไว้ จนกว่าจะถูกโฟกัสด้วย Tab */
+.skip-link {
+  position: fixed; left: 16px; top: -60px; z-index: 100;
+  padding: 10px 16px; background: var(--ink); color: var(--paper); border-radius: 8px;
+  text-decoration: none; font-weight: 600;
+}
+.skip-link:focus { top: 16px; color: var(--paper); }
+
+/* ปุ่มพื้นฐาน */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 44px; padding: 0 18px;               /* 44px = ขนาดขั้นต่ำที่นิ้วกดง่าย */
+  font: 600 15px/1 var(--font-body);
+  border-radius: 999px; cursor: pointer; text-decoration: none;
+  transition: transform .15s ease, background-color .15s ease;
+}
+.btn svg, .btn-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.btn:hover { transform: translateY(-1px); }
+.btn-seal { background: var(--vermilion); color: #fff; border: 2px solid var(--vermilion-dark); }
+.btn-seal:hover { background: var(--vermilion-dark); color: #fff; }
+.btn-ghost { background: var(--paper); color: var(--ink); border: 2px solid var(--wood); }
+.btn-ghost:hover { background: var(--paper-2); color: var(--ink); }
+
+.btn-icon {
+  width: 48px; height: 48px; display: grid; place-items: center;
+  background: var(--paper); color: var(--ink); border: 2px solid var(--wood); border-radius: 50%;
+  cursor: pointer; box-shadow: var(--shadow);
+}
+.btn-icon:hover { background: var(--paper-2); }
+
+/* ป้ายไม้ และ ป้ายกระดาษ */
+.plaque-wood {
+  background: var(--wood); color: var(--wood-text);
+  border: 2px solid var(--gold); border-radius: 12px; box-shadow: var(--shadow);
+}
+.plaque-paper {
+  background: var(--paper); color: var(--ink);
+  border: 2px solid var(--wood); border-radius: 999px; box-shadow: var(--shadow);
+}
+
+/* ตราประทับ SM */
+.seal {
+  width: 44px; height: 44px; flex: none; display: grid; place-items: center;
+  background: var(--vermilion); color: #fff; border-radius: 8px;
+  font: 400 18px/1 var(--font-head); letter-spacing: .04em;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.35);
+}
+
+/* ป้ายชื่อหัวแผง (เหมือนป้ายแขวนหน้าสำนัก) */
+.sign {
+  justify-self: center;
+  padding: 8px 28px; font-size: clamp(22px, 3vw, 30px);
+  background: var(--wood); color: var(--wood-text);
+  border: 2px solid var(--gold); border-radius: 10px;
+  box-shadow: 0 4px 0 var(--wood-light);
+  text-align: center;
+}
+
+/* กล่อง [เดียวมาอัพเดต] — เห็นชัด เพื่อเตือนว่ายังต้องเติมข้อมูล */
+.todo {
+  display: inline-block; padding: 1px 8px; border: 1.5px dashed var(--vermilion);
+  border-radius: 6px; color: var(--vermilion-dark); background: #FFF6EE;
+  font-size: .85em; font-weight: 600;
+}
+.todo-block {
+  padding: 16px; border: 2px dashed var(--vermilion); border-radius: var(--radius);
+  background: rgba(255, 246, 238, .7); color: var(--ink-soft);
+}
+.todo-block strong { color: var(--vermilion-dark); }
+.todo-note { margin-top: 6px; font-size: 14px; }
+
+/* ---------- 3. หน้าแผนที่ ---------- */
+.page-map { overflow: hidden; height: 100dvh; background: #DCE6D8; }
+
+.map-viewport {
+  position: fixed; inset: 0; overflow: hidden;
+  cursor: grab; touch-action: none;   /* touch-action:none = ให้ JavaScript จัดการลากเอง */
+}
+.map-viewport.is-dragging { cursor: grabbing; }
+
+.map-world {
+  position: absolute; left: 0; top: 0;
+  width: 1586px; height: 992px;
+  transform-origin: 0 0;
+}
+.map-world.is-animating { transition: transform .7s cubic-bezier(.22, .8, .25, 1); }
+.map-bg { width: 1586px; height: 992px; max-width: none; user-select: none; }
+
+/* ภาพอาคารขยาย: ซ่อนไว้ แล้วค่อยๆ โผล่เมื่อชี้ปุ่มของอาคารนั้น */
+.hover-art {
+  position: absolute; max-width: none; pointer-events: none; user-select: none;
+  opacity: 0; transition: opacity .3s ease;
+}
+/* :has() = "ถ้าใน map-world มีปุ่ม works ที่ถูกชี้อยู่" → ให้ภาพ works โผล่ */
+.map-world:has(.hotspot[data-open="works"]:is(:hover, :focus-visible))   .hover-art[data-for="works"],
+.map-world:has(.hotspot[data-open="certs"]:is(:hover, :focus-visible))   .hover-art[data-for="certs"],
+.map-world:has(.hotspot[data-open="about"]:is(:hover, :focus-visible))   .hover-art[data-for="about"],
+.map-world:has(.hotspot[data-open="contact"]:is(:hover, :focus-visible)) .hover-art[data-for="contact"],
+.map-world:has(.hotspot[data-open="novels"]:is(:hover, :focus-visible))  .hover-art[data-for="novels"] { opacity: 1; }
+
+/* ปุ่มโปร่งใสที่วางทับอาคาร */
+.hotspot {
+  position: absolute; padding: 0; border: 0; background: transparent;
+  border-radius: 40px; cursor: pointer;
+}
+.hotspot:focus-visible { outline: 4px solid var(--vermilion); outline-offset: 4px; }
+
+/* ซ่อนข้อความจากสายตา แต่โปรแกรมอ่านหน้าจอยังอ่านได้ */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* HUD */
+.hud {
+  position: fixed; z-index: 10; left: 16px; right: 16px; top: 16px;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;
+  pointer-events: none;   /* ให้ลากแผนที่ผ่านช่องว่างได้ */
+}
+.hud > * { pointer-events: auto; }
+.hud-id { display: flex; align-items: center; gap: 12px; padding: 8px 18px 8px 8px; }
+.hud-name { font: 400 20px/1.2 var(--font-head); }
+/* รูปโปรไฟล์เล็กในส่วนหัว */
+.hud-photo {
+  width: 48px; height: 48px; flex: none; object-fit: cover; border-radius: 50%;
+  border: 2px solid var(--gold);
+}
+.hud-role { font-size: 14px; color: #EADBC0; }
+.hud-role strong { color: #fff; }
+.hud-nav { display: flex; gap: 10px; flex-wrap: wrap; }
+.hud-nav .btn { box-shadow: var(--shadow); }
+
+.map-controls { position: fixed; z-index: 10; right: 16px; bottom: 16px; display: flex; gap: 10px; }
+.map-hint { position: fixed; z-index: 10; left: 16px; bottom: 16px; padding: 10px 18px; font-size: 14px; font-weight: 600; }
+
+/* ---------- 4. แผง (dialog) ---------- */
+.panel {
+  width: min(920px, 64vw); max-width: none;
+  height: calc(100dvh - 32px); max-height: none;
+  margin: 16px 16px 16px auto;            /* ชิดขวา เหลือแผนที่ด้านซ้าย */
+  padding: 20px 28px 32px;
+  background: var(--paper) url("../images/ui/paper-texture.webp");
+  color: var(--ink);
+  border: 3px solid var(--wood); border-radius: 18px;
+  box-shadow: 0 0 0 6px rgba(246, 237, 217, .55), var(--shadow);
+  overflow-y: auto;
+}
+.panel-small { width: min(520px, 92vw); height: auto; max-height: calc(100dvh - 32px); margin: 16px 16px auto auto; }
+
+.panel::backdrop { background: rgba(30, 24, 16, .25); }
+.panel[open] { animation: panel-in .35s cubic-bezier(.22, .8, .25, 1); }
+@keyframes panel-in { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+
+.panel-head {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px;
+  position: sticky; top: -20px; z-index: 2; margin: -20px -28px 0; padding: 20px 28px 14px;
+  background: var(--paper) url("../images/ui/paper-texture.webp");
+  border-bottom: 2px solid rgba(74, 46, 28, .15);
+}
+.btn-back { justify-self: start; }
+.panel-lead { margin: 18px 0 6px; text-align: center; color: var(--ink-soft); }
+
+/* การ์ดผลงาน: ตาราง 2 คอลัมน์ */
+.work-grid, .cert-grid {
+  list-style: none; margin: 18px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px;
+}
+.work-card {
+  display: flex; flex-direction: column; height: 100%;
+  background: var(--paper-2); color: var(--ink); text-decoration: none;
+  border: 2px solid var(--wood); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 4px 0 var(--wood-light);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.work-card:hover { transform: translateY(-4px); box-shadow: 0 8px 0 var(--wood-light); color: var(--ink); }
+.work-cover {
+  position: relative; aspect-ratio: 4 / 3; overflow: hidden;
+  background: #E6D6B5 url("../images/ui/paper-texture.webp");
+  border-bottom: 2px solid var(--wood);
+}
+.work-cover img { width: 100%; height: 100%; object-fit: cover; }
+.cover-placeholder {
+  position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 10px;
+  color: var(--ink-soft); text-align: center; padding: 12px;
+}
+.cover-placeholder .enso {
+  width: 92px; height: 92px; display: grid; place-items: center;
+  border: 5px solid var(--ink); border-radius: 50%; border-right-color: transparent;
+  font: 400 40px/1 var(--font-head); color: var(--ink); transform: rotate(-20deg);
+}
+.cover-placeholder .enso span { transform: rotate(20deg); }
+.work-body { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px 18px; flex: 1; }
+.work-cat { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--jade); }
+.work-title { font-size: 24px; }
+.work-client { font-size: 14px; color: var(--ink-soft); }
+.work-summary { font-size: 15px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+.chip {
+  padding: 3px 10px; font-size: 13px; font-weight: 600;
+  background: var(--paper); border: 1.5px solid var(--jade); color: var(--jade); border-radius: 999px;
+}
+.work-cta { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; font-weight: 700; color: var(--vermilion); }
+
+/* การ์ดนิยาย: ใช้สไตล์เดียวกับการ์ดผลงาน (.work-card)
+   ต่างกันแค่ความสูง = ตามเนื้อหาของแต่ละใบ (ไม่ยืดให้สูงเท่าใบข้างๆ) */
+.novel-grid {
+  list-style: none; margin: 18px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px;
+  align-items: start;
+}
+.novel-grid .work-card { height: auto; }
+.novel-grid .work-cover img { object-position: center; }   /* ภาพปกทำเป็นแนวนอนไว้แล้ว (ปกจริงอยู่กลาง + พื้นหลังเบลอ) */
+.novel-grid .work-body { flex: none; }
+.novel-grid .work-cta { margin-top: 4px; }
+.novel-lang { font-weight: 400; opacity: .85; }
+.work-body > .todo { align-self: flex-start; }   /* ป้าย [เดียวมาอัพเดต] ไม่ยืดเต็มความกว้าง */
+.quest-bonus { padding-top: 6px; border-top: 1.5px dashed rgba(74,46,28,.25); color: var(--jade) !important; }
+.quest-bonus .quest-check { border-color: var(--jade); color: var(--jade); font-size: 11px; }
+.quest-bonus.is-done .quest-check { background: var(--jade); border-color: var(--jade); color: #fff; }
+.quest-bonus.is-done span:nth-child(2) { text-decoration: none !important; }
+
+/* การ์ดใบรับรอง */
+.cert-card {
+  display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 14px;
+  background: var(--paper-2); border: 2px solid var(--wood); border-radius: 14px;
+}
+.cert-img { aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; display: grid; place-items: center; background: #E6D6B5; }
+.cert-year { font: 400 22px/1 var(--font-head); color: var(--vermilion); }
+.cert-title { font-size: 17px; font-weight: 700; }
+.cert-issuer { font-size: 14px; color: var(--ink-soft); }
+
+/* About */
+.about { display: grid; gap: 26px; margin-top: 20px; }
+.about h3 { font-size: 22px; margin-bottom: 10px; color: var(--jade); }
+/* ส่วนหัวของ About: รูป + แนะนำตัว */
+.about-hero { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; }
+.about-photo {
+  width: 220px; height: 220px; flex: none; object-fit: cover; border-radius: 50%;
+  border: 6px solid var(--paper);
+  box-shadow: 0 0 0 3px var(--wood), 0 0 0 7px var(--gold), var(--shadow);   /* กรอบไม้ + ขอบทอง */
+}
+.about-hero-text { flex: 1 1 320px; display: grid; gap: 10px; }
+.about .about-name { font-size: 32px; color: var(--ink); margin: 0; }
+.about-name span { font-size: 20px; color: var(--ink-soft); }
+.about-role { color: var(--ink-soft); }
+.about-role strong { color: var(--jade); }
+.about-meta { font-size: 15px; color: var(--ink-soft); }
+.about-intro { font-size: 18px; }
+.about-quote { padding-left: 16px; border-left: 4px solid var(--vermilion); font-style: italic; color: var(--ink-soft); }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.timeline > li { padding: 12px 16px; background: var(--paper-2); border-radius: 10px; border: 1.5px solid rgba(74,46,28,.3); }
+.timeline > li > strong { display: block; }
+.skill-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.skill-groups h4 { margin: 0 0 6px; font-size: 15px; }
+
+/* Contact */
+.contact-list { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 10px; }
+.contact-list a, .contact-list .contact-row {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 52px; padding: 10px 16px;
+  background: var(--paper-2); border: 1.5px solid rgba(74,46,28,.35); border-radius: 10px;
+  color: var(--ink); text-decoration: none;
+}
+.contact-list a:hover { border-color: var(--vermilion); }
+.contact-label { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.contact-value { font-weight: 600; word-break: break-all; text-align: right; }
+
+/* Quick view */
+.quick { display: grid; gap: 26px; margin-top: 20px; }
+.quick h3 { font-size: 22px; margin-bottom: 8px; color: var(--jade); }
+.quick ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+
+/* ---------- 5. หน้ารายละเอียดผลงาน ---------- */
+.page-project { min-height: 100vh; }
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 12px clamp(16px, 4vw, 40px);
+  background: var(--wood); border-bottom: 3px solid var(--gold);
+}
+.topbar-links { display: flex; gap: 10px; flex-wrap: wrap; }
+.topbar .btn-ghost { background: transparent; color: var(--wood-text); border-color: rgba(251,243,226,.6); }
+.topbar .btn-ghost:hover { background: var(--wood-light); color: #fff; }
+
+.project-wrap { max-width: 1180px; margin: 0 auto; padding: 32px clamp(16px, 4vw, 40px) 64px; }
+.project-hero { display: grid; gap: 14px; padding-bottom: 28px; border-bottom: 2px solid rgba(74,46,28,.2); }
+.project-hero h1 { font-size: clamp(36px, 6vw, 60px); }
+.project-hero .work-summary { font-size: 19px; max-width: 760px; }
+.metrics { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.metric { min-width: 150px; padding: 12px 16px; background: var(--paper-2); border: 2px solid var(--wood); border-radius: 12px; }
+.metric strong { display: block; font: 400 26px/1.1 var(--font-head); color: var(--vermilion); }
+.metric span { font-size: 14px; color: var(--ink-soft); }
+
+.overview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 28px 0 0; }
+.overview div { padding: 12px 14px; background: var(--paper-2); border-radius: 10px; }
+.overview dt { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--jade); }
+.overview dd { margin: 4px 0 0; }
+
+.project-layout { display: flex; flex-wrap: wrap; gap: 40px; margin-top: 40px; align-items: flex-start; }
+.stage-nav { flex: 1 1 220px; position: sticky; top: 90px; }
+.stage-nav h2 { font-size: 20px; margin-bottom: 10px; }
+.stage-nav ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.stage-nav a {
+  display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 6px 10px;
+  color: var(--ink); text-decoration: none; border-radius: 8px;
+}
+.stage-nav a:hover { background: var(--paper-2); }
+.stage-dot { width: 26px; height: 26px; flex: none; display: grid; place-items: center; border-radius: 50%; font-size: 13px; font-weight: 700; border: 2px solid var(--vermilion); color: var(--vermilion); }
+.stage-nav .is-done .stage-dot { background: var(--vermilion); color: #fff; }
+
+.stages { flex: 999 1 560px; min-width: 0; list-style: none; margin: 0; padding: 0; position: relative; }
+.stages::before {   /* เส้นทางเดินแนวตั้ง เชื่อมทุกขั้น */
+  content: ""; position: absolute; left: 27px; top: 10px; bottom: 10px;
+  border-left: 3px dotted var(--wood-light);
+}
+.stage { position: relative; padding: 0 0 40px 76px; scroll-margin-top: 90px; }
+.stage-marker {
+  position: absolute; left: 0; top: 0; width: 56px; height: 56px; display: grid; place-items: center;
+  background: var(--vermilion); color: #fff; border-radius: 12px; transform: rotate(45deg);
+  box-shadow: 0 3px 0 var(--vermilion-dark);
+}
+.stage-marker span { transform: rotate(-45deg); font: 400 22px/1 var(--font-head); }
+.stage-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+.stage-head h2 { font-size: 30px; }
+.stage-hint { color: var(--ink-soft); margin-bottom: 14px; }
+
+.pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 24px; padding-top: 24px; border-top: 2px solid rgba(74,46,28,.2); }
+.site-footer { padding: 28px clamp(16px, 4vw, 40px); background: var(--wood); color: var(--wood-text); text-align: center; }
+.site-footer a { color: #F6D9A0; }
+
+/* ---------- 7. แอนิเมชันบรรยากาศ (ใช้คู่กับ js/ambient.js) ---------- */
+
+/* ฉากเปิด: กล้องถอยออกช้าๆ 2.2 วินาที */
+.map-world.is-intro { transition: transform 2.2s cubic-bezier(.3, .7, .2, 1); }
+
+/* หมอกเปิดฉาก: ปกติซ่อนไว้ แอนิเมชันจะทำให้มันเริ่มทึบแล้วจางหาย */
+.intro-mist {
+  position: absolute; inset: -10%; pointer-events: none; opacity: 0;
+  background:
+    radial-gradient(ellipse 45% 55% at 20% 50%, #fff 0%, rgba(255,255,255,.9) 45%, transparent 75%),
+    radial-gradient(ellipse 45% 55% at 80% 50%, #fff 0%, rgba(255,255,255,.9) 45%, transparent 75%),
+    rgba(250, 248, 240, .85);
+  animation: mist-open 2.4s ease-out both;
+}
+@keyframes mist-open {
+  0%   { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+/* ส่วนหัวและปุ่ม ค่อยๆ โผล่หลังหมอกจาง */
+.hud, .map-controls, .map-hint { animation: ui-in .8s ease-out 1.4s both; }
+@keyframes ui-in { from { opacity: 0; transform: translateY(-10px); } }
+
+/* Parallax: ขยับทั้งแผนที่เล็กน้อยตามเมาส์ (--mx, --my มาจาก ambient.js) */
+.parallax {
+  position: absolute; inset: 0;
+  transform: translate(calc(var(--mx, 0) * -12px), calc(var(--my, 0) * -8px));
+  transition: transform .8s ease-out;
+}
+
+/* กลีบดอกไม้ร่วง */
+.petal-layer { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.petal {
+  position: absolute; top: -20px;
+  background: #F5AFC0; border-radius: 150% 0 150% 0;
+  box-shadow: inset -2px -2px 0 rgba(214, 120, 140, .45);
+  opacity: .9;
+  animation-name: petal-fall; animation-timing-function: linear; animation-iteration-count: infinite;
+}
+@keyframes petal-fall {
+  0%   { transform: translate(0, 0) rotate(0); opacity: 0; }
+  8%   { opacity: .9; }
+  50%  { transform: translate(var(--drift), 52vh) rotate(calc(var(--spin) / 2)); }
+  100% { transform: translate(calc(var(--drift) * -.5), 105vh) rotate(var(--spin)); opacity: .6; }
+}
+
+/* ประกายบนผิวน้ำ */
+.glint {
+  position: absolute; width: 14px; height: 4px; margin: -2px 0 0 -7px; pointer-events: none;
+  background: radial-gradient(ellipse, #fff 0%, rgba(255,255,255,.7) 40%, transparent 70%);
+  border-radius: 50%; opacity: 0;
+  animation: glint 3s ease-in-out infinite;
+}
+@keyframes glint {
+  0%, 100% { opacity: 0; transform: scaleX(.4); }
+  50%      { opacity: .95; transform: scaleX(1.2); }
+}
+
+/* น้ำตก: เส้นแสงไหลลง */
+.waterfall-shimmer { position: absolute; left: 880px; top: 92px; width: 60px; height: 90px; overflow: hidden; pointer-events: none; }
+.waterfall-shimmer span {
+  position: absolute; top: -30px; width: 3px; height: 26px; border-radius: 3px;
+  background: linear-gradient(transparent, rgba(255,255,255,.95), transparent);
+  animation: fall-streak 1.6s linear infinite;
+}
+@keyframes fall-streak { to { transform: translateY(130px); } }
+
+/* หมอกลอย */
+.mist-layer {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  transform: translate(calc(var(--mx, 0) * -14px), calc(var(--my, 0) * -6px)); /* ขยับมากกว่าแผนที่ → รู้สึกว่าอยู่ใกล้กว่า */
+  transition: transform .8s ease-out;
+}
+.mist {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,.75) 0%, rgba(255,255,255,.35) 45%, transparent 70%);
+  animation: mist-drift linear infinite alternate;
+}
+.mist.m1 { left: -10%; top: 74%; width: 720px; height: 220px; animation-duration: 38s; }
+.mist.m2 { left: 55%;  top: 82%; width: 820px; height: 240px; animation-duration: 46s; animation-delay: -12s; }
+.mist.m3 { left: 30%;  top: -6%; width: 640px; height: 180px; animation-duration: 52s; animation-delay: -20s; opacity: .7; }
+@keyframes mist-drift { from { transform: translateX(-120px); } to { transform: translateX(160px); } }
+
+/* นกกระเรียนบินผ่าน (ขวา → ซ้าย) ทุก 40 วินาที */
+.crane-fly {
+  position: absolute; left: 0; top: 0; width: 120px; max-width: none; pointer-events: none;
+  opacity: 0; animation: crane-across 40s linear 6s infinite;
+}
+@keyframes crane-across {
+  0%   { opacity: 0; transform: translate(1650px, 260px) rotate(-4deg); }
+  2%   { opacity: 1; }
+  30%  { opacity: 1; transform: translate(800px, 120px) rotate(2deg); }
+  58%  { opacity: 1; transform: translate(-200px, 40px) rotate(-3deg); }
+  60%, 100% { opacity: 0; transform: translate(-200px, 40px); }
+}
+
+/* ประกายทองลอยขึ้นรอบอาคารตอนชี้ */
+.spark {
+  position: absolute; width: 7px; height: 7px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, #FFF6C8 0%, #F4C350 50%, transparent 72%);
+  opacity: 0;
+}
+.hotspot:is(:hover, :focus-visible) .spark { animation: spark-rise 1.6s ease-out infinite; }
+@keyframes spark-rise {
+  0%   { opacity: 0; transform: translateY(0) scale(.6); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-70px) scale(1.2); }
+}
+
+/* ---------- 8. ระบบเกม (ใช้คู่กับ js/game.js) ---------- */
+
+/* Quest Log */
+.quest {
+  position: fixed; z-index: 10; left: 16px; bottom: 80px; width: 290px;   /* มุมซ้ายล่าง เหนือป้าย "Drag to explore" — ไม่บังอาคาร */
+  background: var(--paper) url("../images/ui/paper-texture.webp");
+  border: 2px solid var(--wood); border-radius: 14px; box-shadow: var(--shadow);
+  animation: ui-in .8s ease-out 1.6s both;
+}
+.quest-toggle {
+  width: 100%; min-height: 44px; display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  padding: 8px 14px; background: none; border: 0; border-bottom: 1.5px solid rgba(74,46,28,.2);
+  font: 600 15px var(--font-body); color: var(--ink); cursor: pointer; text-align: left;
+}
+.quest-toggle[aria-expanded="false"] { border-bottom: 0; }
+.quest-count { padding: 2px 10px; background: var(--wood); color: var(--wood-text); border-radius: 999px; font-size: 13px; }
+.quest.is-complete .quest-count { background: var(--vermilion); }
+.quest-list { list-style: none; margin: 0; padding: 10px 14px 4px; display: grid; gap: 8px; font-size: 14px; }
+.quest-list li { display: flex; align-items: flex-start; gap: 8px; color: var(--ink); }
+.quest-list li.is-done { color: var(--ink-soft); }
+.quest-list li.is-done span:nth-child(2) { text-decoration: line-through; text-decoration-color: rgba(163,48,28,.6); }
+.quest-check {
+  width: 20px; height: 20px; flex: none; display: grid; place-items: center; margin-top: 1px;
+  border: 2px solid var(--wood); border-radius: 5px; background: var(--paper);
+  font-size: 13px; color: #fff;
+}
+.is-done .quest-check { background: var(--vermilion); border-color: var(--vermilion-dark); animation: check-pop .4s ease-out; }
+@keyframes check-pop { 50% { transform: scale(1.35); } }
+.quest-list[hidden], .quest-list[hidden] + .quest-foot { display: none; }
+.quest-foot { display: flex; justify-content: space-between; padding: 4px 14px 8px; font-size: 13px; }
+
+/* NPC: กล่องบทสนทนา */
+.npc {
+  position: fixed; z-index: 15; left: 50%; bottom: 24px; transform: translateX(-50%);
+  width: min(760px, calc(100vw - 32px));
+  display: flex; gap: 18px; align-items: flex-end; padding: 18px 22px;
+  background: var(--paper) url("../images/ui/paper-texture.webp");
+  border: 3px solid var(--wood); border-radius: 16px;
+  box-shadow: 0 0 0 5px rgba(246,237,217,.6), var(--shadow);
+  animation: npc-in .45s cubic-bezier(.22,.8,.25,1) both;
+}
+.npc[hidden] { display: none; }
+@keyframes npc-in { from { opacity: 0; transform: translate(-50%, 30px); } }
+.npc-portrait {
+  width: 104px; height: 104px; flex: none; object-fit: contain; margin: -40px 0 -6px -6px;
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,.25));
+  animation: npc-bob 3s ease-in-out infinite;
+}
+@keyframes npc-bob { 50% { transform: translateY(-6px) rotate(-2deg); } }
+.npc-body { flex: 1; display: grid; gap: 6px; }
+.npc-name {
+  justify-self: start; padding: 2px 12px; margin-top: -34px; margin-bottom: 4px;
+  background: var(--wood); color: var(--wood-text); border: 2px solid var(--gold); border-radius: 8px; font-size: 15px;
+}
+.npc-text { min-height: 3.2em; font-size: 18px; line-height: 1.6; }
+.npc-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.npc-open .map-hint { display: none; }
+
+/* Achievement */
+.achievement {
+  position: fixed; z-index: 20; left: 50%; top: 20px; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 16px; padding: 14px 16px 14px 18px;
+  background: var(--wood); color: var(--wood-text);
+  border: 3px solid var(--gold); border-radius: 16px;
+  box-shadow: 0 0 0 4px rgba(233,184,74,.35), 0 0 40px rgba(233,184,74,.55), var(--shadow);
+  animation: achieve-in .6s cubic-bezier(.2,1.4,.4,1) both;
+}
+.achievement[hidden] { display: none; }
+@keyframes achieve-in { from { opacity: 0; transform: translate(-50%, -30px) scale(.8); } }
+.achievement-medal { width: 52px; height: 52px; flex: none; animation: medal-shine 2.4s ease-in-out infinite; }
+@keyframes medal-shine { 50% { transform: rotate(-8deg) scale(1.06); } }
+.achievement-kicker { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #F1D9A6; }
+.achievement-title { font-size: 22px; line-height: 1.2; color: #fff; }
+.achievement-text p:last-child { font-size: 14px; color: #EADBC0; }
+.achievement-actions { display: flex; align-items: center; gap: 8px; }
+.achievement .btn-icon { width: 40px; height: 40px; box-shadow: none; }
+
+/* ---------- 9. ตัวละครบนแผนที่ (ใช้คู่กับ js/player.js) ---------- */
+.player { position: absolute; left: 0; top: 0; width: 0; height: 0; pointer-events: none; z-index: 2; }
+.player-shadow {
+  position: absolute; left: -20px; top: -6px; width: 40px; height: 12px; border-radius: 50%;
+  background: rgba(40, 30, 10, .3);
+}
+/* หมากตัวเดิน (ใช้ชั่วคราว จนกว่าจะมีภาพตัวละคร) */
+.player-token {
+  position: absolute; left: -28px; bottom: 14px; width: 56px; height: 56px;
+  border-radius: 50%; border: 4px solid var(--gold); background: var(--wood);
+  box-shadow: 0 0 0 2px var(--wood), 0 6px 10px rgba(0,0,0,.3);
+  animation: player-idle 2.4s ease-in-out infinite;
+}
+.player-token img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.player-token::after {   /* หางแหลมด้านล่าง ให้ดูเป็นหมุดบนแผนที่ */
+  content: ""; position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%);
+  border: 9px solid transparent; border-top: 12px solid var(--gold);
+}
+/* ภาพตัวละครจริง (ตอนมีแล้ว) */
+.player-sprite {
+  position: absolute; left: -42px; bottom: -4px; width: 84px; max-width: none;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,.25));
+  animation: player-idle 2.4s ease-in-out infinite;
+}
+.is-flipped .player-sprite { transform: scaleX(-1); }   /* กลับด้านภาพตอนเดินสวนทาง */
+@keyframes player-idle { 50% { translate: 0 -4px; } }
+/* ตอนเดิน: กระโดดเป็นจังหวะ */
+.is-walking .player-token, .is-walking .player-sprite { animation: player-hop .3s ease-in-out infinite; }
+@keyframes player-hop { 50% { translate: 0 -9px; rotate: 4deg; } }
+
+/* ---------- 10. กรอบลายจีน (ภาพจาก images/ui/) ----------
+   ใช้เทคนิค 9-slice ผ่าน border-image:
+   ภาพถูกตัดเป็น 9 ช่อง → มุมทั้ง 4 คงรูป, ขอบยืดตามขนาด, ตรงกลางยืดเต็ม (ถ้าใส่ fill)
+   ตัวเลขหลัง url(...) = ระยะตัดจากขอบภาพ (พิกเซลของไฟล์ภาพ) บน ขวา ล่าง ซ้าย
+   border-width = ขนาดที่แสดงบนจอ */
+
+/* แผง: กรอบไม้ + หลังคา ซ้อนอยู่ด้านบนสุด, กระดาษเลื่อนอยู่ด้านใน */
+.panel {
+  background: none; border: 0; border-radius: 0; box-shadow: none; padding: 0; overflow: visible;
+}
+.panel::after {
+  content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none;
+  border-style: solid; border-width: 155px 83px 90px;
+  border-image: url("../images/ui/panel-frame.webp") 310 165 180 165;
+  filter: drop-shadow(0 10px 18px rgba(43, 33, 24, .35));
+}
+.panel-scroll {
+  position: absolute; top: 107px; left: 39px; right: 39px; bottom: 56px;   /* = ขอบด้านในของกรอบไม้ */
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: 0 56px 40px 34px;     /* ขวาเว้นที่ให้แถบเลื่อนหยก */
+  scrollbar-width: none;         /* ซ่อนแถบเลื่อนปกติ (ใช้ป้ายหยกแทน) */
+  background: var(--paper) url("../images/ui/panel-bg.webp") top center / cover no-repeat;
+}
+.panel-scroll::-webkit-scrollbar { display: none; }
+.panel-small { width: min(660px, 92vw); height: min(860px, calc(100dvh - 32px)); }
+.panel-small .panel-lead::before, .panel-small .panel-lead::after { display: none; }   /* แผงแคบ ไม่ใส่เส้นคั่น */
+.panel .panel-head {
+  top: 0; margin: 0 -56px 0 -34px; padding: 30px 56px 12px 34px;   /* ซ้าย 34px = ตรงกับขอบการ์ดด้านล่าง */   /* เว้นซ้ายขวาให้พ้นเหล็กยึดมุมของกรอบ */
+  background: var(--paper) url("../images/ui/panel-bg.webp") top center / 100% auto no-repeat;
+  border-bottom: 0;
+}
+
+/* ป้ายชื่อแผง: ป้ายไม้ดอกเหมย (แบบเดียวกับป้ายอาคารบนแผนที่)
+   ป้ายมีรอยอุ้งเท้าสองข้าง → วางตัวหนังสือแค่ช่วงกลาง 64% และไม่ยืดภาพ (คงสัดส่วนเดิม) */
+.panel .sign {
+  display: flex; align-items: center; justify-content: center;
+  width: 260px; aspect-ratio: 700 / 296; height: auto; padding: 0 18% 3%;
+  background: url("../images/ui/title-plaque.webp") center / contain no-repeat;
+  border: 0; border-image: none; border-radius: 0; box-shadow: none;
+  color: var(--ink); font-size: 26px; line-height: 1.1; white-space: nowrap;
+}
+
+/* การ์ดผลงาน / นิยาย: กระดาษมุมทอง */
+.work-card {
+  border-style: solid; border-width: 28px 28px 34px; border-radius: 0;
+  border-image: url("../images/ui/card-frame.webp") 100 100 115 100 fill;
+  background: none; box-shadow: none; overflow: visible;
+  filter: drop-shadow(0 4px 6px rgba(43, 33, 24, .22));
+  transition: transform .2s ease, filter .2s ease;
+}
+.work-card:hover { transform: translateY(-4px); box-shadow: none; filter: drop-shadow(0 10px 12px rgba(43, 33, 24, .3)); }
+.work-card:focus-visible { outline-offset: 6px; }
+.work-cover { border: 0; border-radius: 4px; overflow: visible; background: #E6D6B5 url("../images/ui/paper-texture.webp"); }
+.work-cover img { border-radius: 4px; }
+/* ภาพปกเต็มความกว้างการ์ด (ชิดขอบทองของกรอบ) + สั้นลงเป็น 16:10 */
+.work-card .work-cover {
+  aspect-ratio: 16 / 10; margin: -22px -22px 0; border-radius: 6px 6px 0 0;
+  border-bottom: 2px solid #C9A04A;
+}
+.work-card .work-cover img { border-radius: 6px 6px 0 0; }
+.work-body { padding: 12px 0 0; gap: 4px; }
+.work-card .work-title { font-size: 22px; }
+.work-card .work-summary {   /* คำอธิบายยาวสุด 2 บรรทัด */
+  font-size: 15px; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.work-card .chips { flex-wrap: wrap; gap: 6px; padding-top: 4px; }
+.work-card .chip { padding: 2px 9px; font-size: 12px; }
+
+/* ปุ่ม CTA ในการ์ด: ป้ายแดงขอบทอง */
+.work-cta {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 40px; margin-top: 10px; padding: 0 6px 2px;
+  border-style: solid; border-width: 0 24px;
+  border-image: url("../images/ui/btn-cta.webp") 0 130 0 130 fill;
+  color: #fff; font-weight: 700; font-size: 15px;
+  transition: filter .2s ease;
+}
+.work-card:hover .work-cta { filter: brightness(1.08); }
+
+/* ปุ่ม Back: ปุ่มตัวหนังสือธรรมดา (ไม่มีกรอบ) — ป้ายชื่อแผงจะได้เด่นอยู่ชิ้นเดียว
+   ยังสูง 44px ให้กดง่าย และมีขีดเส้นใต้ตอนชี้ บอกว่ากดได้ */
+.panel .btn-back {
+  min-height: 44px; padding: 0 10px 0 0; gap: 4px;   /* ซ้าย 0 → ลูกศรชิดแนวเดียวกับขอบการ์ด */
+  background: none; border: 0; border-image: none; border-radius: 8px;
+  color: var(--ink-soft); font-size: 16px; white-space: nowrap;
+}
+.panel .btn-back:hover { background: none; color: var(--vermilion); text-decoration: underline; text-underline-offset: 4px; transform: none; }
+.panel .btn-back svg { width: 18px; height: 18px; }
+
+/* เส้นคั่นปลายลูกศรทอง ซ้าย–ขวา ของข้อความใต้หัวข้อ */
+.panel .panel-lead { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.panel .panel-lead::before, .panel .panel-lead::after {
+  content: ""; flex: 0 0 90px; height: 26px;
+  background: url("../images/ui/divider-end.webp") right center / auto 100% no-repeat;
+}
+.panel .panel-lead::before { transform: scaleX(-1); }
+
+/* ของตกแต่งรอบกรอบ */
+.panel-deco { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
+.panel-deco img { position: absolute; max-width: none; }
+.deco-roof { left: 50%; top: 34px; width: 120px; transform: translateX(-50%); }
+.deco-blossom { right: -46px; top: 52px; width: 230px; }
+.deco-cloud { bottom: -10px; width: 190px; }
+.deco-cloud-l { left: -52px; }
+.deco-cloud-r { right: -52px; transform: scaleX(-1); }
+
+/* แถบเลื่อนหยก */
+.jade-scroll {
+  position: absolute; z-index: 6; right: 46px; top: 230px; bottom: 110px; width: 34px;
+}
+.jade-scroll::before {   /* รางทองบางๆ */
+  content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; transform: translateX(-50%);
+  background: linear-gradient(90deg, #8A6420, #E9C46A, #8A6420); border-radius: 2px; opacity: .8;
+}
+.jade-thumb {
+  position: relative; display: block; width: 34px; max-width: none; cursor: grab; touch-action: none;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,.25));
+}
+.jade-thumb:active { cursor: grabbing; }
+
+/* หลังคาแขวนเหนือการ์ด */
+.work-grid > li, .novel-grid > li, .cert-grid > li { position: relative; padding-top: 44px; }
+.work-grid > li::before, .novel-grid > li::before, .cert-grid > li::before {
+  content: ""; position: absolute; left: 6%; right: 6%; top: 0; z-index: 1; pointer-events: none;
+  aspect-ratio: 900 / 258;
+  background: url("../images/ui/card-hanger.webp") center / 100% 100% no-repeat;
+}
+.work-grid > li:has(.work-card:hover)::before, .novel-grid > li:has(.work-card:hover)::before { transform: translateY(-4px); transition: transform .2s ease; }
+
+/* ---------- 6. มือถือ ---------- */
+@media (max-width: 760px) {
+  .panel { width: 100vw; height: 100dvh; margin: 0; border-radius: 0; border-width: 0; padding: 16px 16px 28px; }
+  .panel-head { margin: -16px -16px 0; padding: 14px 16px 12px; grid-template-columns: auto 1fr; top: -16px; }
+  .panel-head .sign { justify-self: end; padding: 6px 16px; }
+  .panel-head-spacer { display: none; }
+  .panel-small { height: auto; width: 100vw; margin: auto 0 0; border-radius: 18px 18px 0 0; }
+  .work-grid, .cert-grid, .skill-groups { grid-template-columns: minmax(0, 1fr); }
+  .hud-id { padding: 6px 14px 6px 6px; }
+  .hud-name { font-size: 17px; }
+  .map-hint { display: none; }
+  .overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stage-nav { position: static; }
+  .stage { padding-left: 64px; }
+  .stage-marker { width: 46px; height: 46px; }
+  .stages::before { left: 22px; }
+}
+
+/* ปิดแอนิเมชัน: เมื่อ <html> มี class "motion-off"
+   (ตั้งจากค่า Windows "Animation effects" หรือจากปุ่มเปิด/ปิดบนหน้าเว็บ) */
+.motion-off *, .motion-off *::before, .motion-off *::after { animation: none !important; transition: none !important; }
+.motion-off .petal-layer, .motion-off .glint, .motion-off .waterfall-shimmer,
+.motion-off .crane-fly, .motion-off .spark, .motion-off .intro-mist { display: none; }
+.motion-off .parallax, .motion-off .mist-layer { transform: none; }
+
+/* ปุ่มเพลง: ตอนเปิดเพลง ปุ่มเป็นสีชาด + ไอคอนโยกตามจังหวะ */
+#music-toggle[aria-pressed="true"] { background: var(--vermilion); color: #fff; border-color: var(--vermilion-dark); }
+#music-toggle[aria-pressed="true"] svg { animation: note-bob 1.66s ease-in-out infinite; }
+@keyframes note-bob { 50% { transform: translateY(-2px) rotate(-6deg); } }
+
+/* ปุ่มแอนิเมชัน: ตอนเปิดใช้ เป็นสีชาดเหมือนปุ่มเพลง (ตอนปิด = หน้าตาเหมือนปุ่มอื่น) */
+#motion-toggle[aria-pressed="true"] { background: var(--vermilion); color: #fff; border-color: var(--vermilion-dark); }
+
+/* ปุ่มที่หน้าตาเหมือนลิงก์ (ใช้ใน Quick view และ Quest Log) */
+.link-btn { padding: 0; border: 0; background: none; font: inherit; color: var(--vermilion); text-decoration: underline; cursor: pointer; min-height: 32px; }
+.link-btn:hover { color: var(--vermilion-dark); }
+
+/* ปุ่ม View project ชิดล่างการ์ดเสมอ → การ์ดแถวเดียวกันปุ่มอยู่ระดับเดียวกัน */
+.work-grid .work-cta { margin-top: auto; }
+.work-grid .work-summary { margin-bottom: 12px; }
+
+/* การ์ดใบรับรอง: ใช้ .work-card เหมือนการ์ดผลงาน (ไม่ใช่ลิงก์ทั้งใบ → ไม่ลอยตอนชี้) */
+.cert-grid .work-card:hover, .novel-grid .work-card:hover { transform: none; filter: drop-shadow(0 4px 6px rgba(43, 33, 24, .22)); }
+.cert-grid .work-cta { margin-top: 10px; }
+
+/* ---------- 11. ใบรับรอง: รูปย่อ + ดูเต็มจอ ---------- */
+/* รูปย่อ: แสดงใบเต็มๆ ไม่ครอป (contain) บนพื้นกระดาษ */
+.cert-cover { display: block; }
+.cert-zoom {
+  position: absolute; inset: 0; width: 100%; padding: 0; border: 0; cursor: zoom-in;
+  background: #E9DCC0 url("../images/ui/paper-texture.webp");
+}
+.cert-zoom { overflow: hidden; border-radius: 6px 6px 0 0; }
+.cert-zoom img { width: 100%; height: 100%; object-fit: cover; transition: transform .25s ease; }
+.cert-zoom:hover img { transform: scale(1.04); }
+/* ช่องรูปใบรับรอง = สัดส่วน A4 แนวนอน (2000×1414) → เต็มขอบเฟรมโดยไม่ครอปเนื้อหาใบ */
+.cert-grid .work-card .work-cover, .novel-grid .work-card .work-cover { aspect-ratio: 2000 / 1414; }
+.cert-zoom-hint {
+  position: absolute; right: 12px; bottom: 12px; width: 40px; height: 40px; display: grid; place-items: center;
+  background: rgba(43, 33, 24, .75); color: #fff; border-radius: 50%; opacity: 0; transition: opacity .2s ease;
+}
+.cert-zoom-hint svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.cert-zoom:hover .cert-zoom-hint, .cert-zoom:focus-visible .cert-zoom-hint { opacity: 1; }
+.cert-zoom:focus-visible { outline: 3px solid var(--vermilion); outline-offset: -3px; }
+
+/* Lightbox เต็มจอ */
+.lightbox {
+  width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+  background: rgba(20, 15, 10, .92); color: #fff; overflow: hidden;
+}
+.lightbox[open] { display: grid; grid-template-columns: 80px 1fr 80px; grid-template-rows: 1fr auto; animation: lb-in .25s ease-out; }
+.lightbox::backdrop { background: transparent; }
+@keyframes lb-in { from { opacity: 0; } }
+.lightbox-stage { grid-column: 2; grid-row: 1; display: grid; place-items: center; min-height: 0; padding: 32px 0 12px; }
+.lightbox-stage img {
+  max-width: calc(100vw - 200px); max-height: calc(100dvh - 140px);   /* เหลือที่ให้ปุ่ม ‹ › และคำบรรยายด้านล่าง */
+  width: auto; height: auto; object-fit: contain; border-radius: 4px;
+  box-shadow: 0 0 0 6px var(--paper), 0 0 0 9px var(--gold), 0 20px 60px rgba(0,0,0,.6);
+  animation: lb-zoom .3s cubic-bezier(.22,.8,.25,1);
+}
+@keyframes lb-zoom { from { transform: scale(.92); opacity: 0; } }
+.lightbox-caption {
+  grid-column: 1 / -1; grid-row: 2; display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 14px 20px 22px; font-size: 16px; color: #EADBC0;
+}
+.lightbox-caption strong { color: #fff; font-size: 19px; }
+.lightbox-caption a { color: #F6D9A0; }
+.lb-btn {
+  width: 52px; height: 52px; display: grid; place-items: center; align-self: center; justify-self: center;
+  background: rgba(246, 237, 217, .12); color: #fff; border: 2px solid rgba(246, 237, 217, .5); border-radius: 50%; cursor: pointer;
+}
+.lb-btn:hover { background: rgba(246, 237, 217, .25); }
+.lb-btn svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.lb-btn[hidden] { visibility: hidden; display: grid; }
+.lb-prev { grid-column: 1; grid-row: 1; }
+.lb-next { grid-column: 3; grid-row: 1; }
+.lb-close { position: absolute; top: 16px; right: 16px; z-index: 2; }
+
+/* About: ปุ่มดาวน์โหลด, ประสบการณ์แบบมีหัวข้อย่อย, การศึกษา+ภาษา 2 คอลัมน์ */
+.doc-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.doc-buttons .work-cta { margin-top: 0; text-decoration: none; }
+.timeline-period { display: block; font-size: 14px; color: var(--jade); font-weight: 600; margin: 2px 0 4px; }
+.timeline-points { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; }
+.about-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.timeline-points li { list-style: disc; }
+
+/* ไอคอนในแผง Contact */
+.contact-label { display: inline-flex; align-items: center; gap: 10px; }
+.contact-icon {
+  width: 30px; height: 30px; flex: none; padding: 5px; border-radius: 8px;
+  background: var(--paper); border: 1.5px solid rgba(74,46,28,.3); color: var(--vermilion);
+  fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.contact-list a:hover .contact-icon { background: var(--vermilion); color: #fff; border-color: var(--vermilion-dark); }
+.panel .panel-lead > span { max-width: 560px; text-align: center; text-wrap: balance; }
+.novel-grid .work-cta { text-decoration: none; }
+.lightbox-caption span[lang="th"] { color: #EADBC0; }
+
+/* เนื้อหาแต่ละขั้นในหน้าผลงาน */
+.stage-content { display: grid; gap: 10px; font-size: 17px; max-width: 760px; }
+.stage-content ul { margin: 0; padding-left: 22px; display: grid; gap: 6px; }
+.stage-content strong { color: var(--ink); }
+
+/* ภาพประกอบในแต่ละขั้น: ช่องเท่ากันทุกภาพ (2 คอลัมน์ สัดส่วน 16:10) */
+.stage-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 18px; }
+.stage-gallery figure { margin: 0; }
+.stage-gallery figcaption { margin-top: 8px; font-size: 14px; color: var(--ink-soft); }
+
+/* ปุ่มรูป (ใช้ทั้งภาพใหญ่ใต้หัวเรื่อง และภาพประกอบ) */
+.shot {
+  position: relative; display: block; width: 100%; padding: 0; cursor: zoom-in; overflow: hidden;
+  aspect-ratio: 16 / 10; background: #F4F6F2;
+  border: 2px solid rgba(74,46,28,.25); border-radius: 10px; box-shadow: 0 4px 12px rgba(43,33,24,.15);
+}
+.shot img { width: 100%; height: 100%; object-fit: contain; transition: transform .25s ease; }
+.shot:hover { border-color: var(--vermilion); }
+.shot:hover img { transform: scale(1.03); }
+.shot:hover .cert-zoom-hint, .shot:focus-visible .cert-zoom-hint { opacity: 1; }
+
+/* ภาพใหญ่ใต้หัวเรื่อง */
+.project-cover { margin: 6px 0 4px; }
+.project-cover .shot { aspect-ratio: 16 / 9; border-radius: 14px; }
+.project-cover .shot img { object-fit: cover; }
+
+/* ---------- 12. หน้ารายละเอียดผลงาน: ธีมเดียวกับแผง ---------- */
+/* พื้นหลังกระดาษภูเขาจาง (อยู่กับที่ตอนเลื่อน) */
+.page-project { background: var(--paper) url("../images/ui/panel-bg.webp") center top / cover fixed; }
+
+/* แถบบน = หลังคากระเบื้องเขียว (ยืดช่วงกลาง ปลายสองข้าง + พู่แดงคงรูป)
+   ซ้อน 3 ชั้น: ::before แผ่นกระดาษ (กันเนื้อหาโผล่) → ::after หลังคา → ปุ่ม */
+.page-project .topbar {
+  height: 112px; padding: 14px clamp(250px, 18vw, 290px) 0; align-items: flex-start;
+  background: none; border: 0;
+}
+.page-project .topbar::before {
+  content: ""; position: absolute; z-index: 0; left: 0; right: 0; top: 0; height: 60px;
+  background: var(--paper) url("../images/ui/panel-bg.webp") center top / cover fixed;
+}
+.page-project .topbar::after {
+  content: ""; position: absolute; z-index: 1; inset: 0; pointer-events: none;
+  border-style: solid; border-width: 0 124px; border-image: url("../images/ui/topbar-roof.webp") 0 300 0 300 fill;
+  filter: drop-shadow(0 6px 8px rgba(43, 33, 24, .25));
+}
+.page-project .topbar > * { position: relative; z-index: 2; }
+.page-project .topbar .btn { min-height: 40px; box-shadow: 0 2px 0 var(--wood-light); }
+.page-project .topbar .btn-ghost { background: var(--paper); color: var(--ink); border-color: var(--wood); }
+.page-project .topbar .btn-ghost:hover { background: var(--paper-2); color: var(--ink); }
+.page-project .topbar, .page-project .topbar-links { flex-wrap: nowrap; }
+.stage-nav { top: 128px; }
+.stage { scroll-margin-top: 130px; }
+
+/* หมุดเลขขั้น = ตราหยกกรอบทอง */
+.stage-marker {
+  width: 62px; height: 64px; left: -3px; top: -6px; border-radius: 0; transform: none; box-shadow: none;
+  background: url("../images/ui/stage-badge.webp") center / contain no-repeat;
+  filter: drop-shadow(0 3px 3px rgba(43, 33, 24, .3));
+}
+.stage-marker span {
+  transform: none; margin-top: -2px;
+  font: 400 24px/1 var(--font-head); color: #fff;
+  text-shadow: 0 1px 0 #1F4A33, 0 0 6px rgba(20, 60, 40, .8);
+}
+.stage-nav .stage-dot { border-color: var(--jade); color: var(--jade); }
+.stage-nav .is-done .stage-dot { background: var(--jade); color: #fff; }
+.stages::before { border-left: 3px dotted var(--gold); }
+
+/* ---------- 13. หน้ารายละเอียดผลงาน (Case study) ----------
+   ใช้ร่วมกันทุกผลงาน · สีประจำงานมาจาก data.js (accent) → --accent
+   หลักการ: ลวดลายจีนอยู่ที่ขอบ (หลังคา, สารบัญม้วนคัมภีร์, ป้ายเลขหัวข้อ)
+            พื้นที่อ่านเป็นกระดาษเรียบ ไม่มีลาย → ตัวหนังสือกับภาพผลงานเด่น */
+.project-wrap { max-width: 1320px; --accent: var(--jade); --on-accent: #fff; }
+.page-project .project-wrap { padding-top: 24px; }
+
+/* ปก */
+.cs-cover { display: grid; gap: 12px; margin-bottom: 40px; }
+.cs-category { font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--jade); }
+.cs-cover h1 { font: 400 clamp(38px, 6vw, 68px)/1.05 var(--font-head); color: var(--ink); }
+.cs-summary { font-size: clamp(18px, 2vw, 22px); line-height: 1.55; max-width: 780px; color: var(--ink); }
+.cs-client { color: var(--ink-soft); }
+.cs-hero { margin-top: 18px; }
+.cs-hero .cs-shot { border-radius: 18px; box-shadow: 0 18px 40px rgba(43,33,24,.22); }
+
+/* ภาพที่กดขยายได้: ขนาดตามสัดส่วนจริง ไม่บีบ ไม่ครอป */
+.cs-shot {
+  position: relative; display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in;
+  background: #fff; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(74,46,28,.18), 0 8px 20px rgba(43,33,24,.12);
+}
+.cs-shot img { display: block; width: 100%; height: auto; }
+.cs-shot:hover { box-shadow: 0 0 0 2px var(--accent), 0 10px 24px rgba(43,33,24,.18); }
+.cs-shot:focus-visible { outline: 3px solid var(--vermilion); outline-offset: 3px; }
+.cs-zoom {
+  position: absolute; right: 12px; bottom: 12px; width: 40px; height: 40px; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(43,33,24,.75); opacity: 0; transition: opacity .2s;
+}
+.cs-zoom svg { width: 22px; height: 22px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
+.cs-shot:hover .cs-zoom, .cs-shot:focus-visible .cs-zoom { opacity: 1; }
+.cs-figure { margin: 0; display: grid; gap: 10px; align-content: start; }
+.cs-figure figcaption { font-size: 15px; color: var(--ink-soft); }
+
+/* หมุดอธิบายบนภาพ + รายการคำอธิบายตามเลข */
+.cs-pin {
+  position: absolute; transform: translate(-50%, -50%); width: 32px; height: 32px; display: grid; place-items: center;
+  border-radius: 50%; background: var(--accent); color: var(--on-accent); font: 400 16px/1 var(--font-head);
+  border: 3px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.25), 0 4px 8px rgba(43,33,24,.35); pointer-events: none;
+}
+.cs-pin-notes { list-style: none; counter-reset: pin; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
+.cs-pin-notes li { counter-increment: pin; position: relative; padding-left: 42px; min-height: 30px; display: flex; align-items: center; font-size: 16px; }
+.cs-pin-notes li::before {
+  content: counter(pin); position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+  width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%;
+  background: var(--accent); color: var(--on-accent); font: 400 15px/1 var(--font-head);
+}
+
+/* โครงหน้า: สารบัญซ้าย + เนื้อหา */
+.cs-layout { display: grid; gap: 28px; }
+.cs-body { display: grid; gap: 28px; min-width: 0; }
+.cs-section {
+  scroll-margin-top: 130px; padding: clamp(24px, 4vw, 48px);
+  background: #FBF7EE; border-radius: 18px; box-shadow: 0 0 0 1px rgba(74,46,28,.12), 0 6px 18px rgba(43,33,24,.08);
+  display: grid; gap: 22px; min-width: 0;
+}
+.cs-head { display: flex; align-items: center; gap: 14px; }
+.cs-no {
+  flex: none; width: 54px; height: 56px; display: grid; place-items: center; padding-bottom: 2px;
+  background: url("../images/ui/stage-badge.webp") center / contain no-repeat;
+  font: 400 19px/1 var(--font-head); color: #fff; text-shadow: 0 1px 0 #1F4A33, 0 0 6px rgba(20,60,40,.8);
+}
+.cs-head h2 { font: 400 clamp(26px, 3vw, 34px)/1.15 var(--font-head); color: var(--ink); }
+.cs-head::after { content: ""; flex: 1; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--accent), transparent); opacity: .55; }
+.cs-sub { font: 400 22px/1.25 var(--font-head); color: var(--ink); margin-top: 6px; }
+.cs-lead, .cs-prose p, .cs-prose li { font-size: 18px; line-height: 1.7; max-width: 72ch; }
+.cs-prose { display: grid; gap: 12px; }
+.cs-prose ul, .cs-card ul { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+.cs-source, .cs-note { font-size: 15px; color: var(--ink-soft); }
+.cs-card { padding: 20px 22px; background: #fff; border-radius: 14px; box-shadow: 0 0 0 1px rgba(74,46,28,.14); display: grid; gap: 10px; align-content: start; }
+.cs-card h3 { font: 400 20px/1.25 var(--font-head); }
+.cs-card li { font-size: 16px; line-height: 1.6; }
+
+/* สารบัญ: จอใหญ่ = ม้วนคัมภีร์ติดซ้าย · จอเล็ก = กล่องพับได้ด้านบน (ไม่ลอยทับเนื้อหา) */
+.cs-toc-box summary { cursor: pointer; font: 400 20px/1.2 var(--font-head); padding: 14px 18px; list-style: none; display: flex; justify-content: space-between; }
+.cs-toc-box summary::-webkit-details-marker { display: none; }
+.cs-toc-box summary::after { content: "▾"; color: var(--jade); }
+.cs-toc-box[open] summary::after { content: "▴"; }
+.cs-toc-box { background: #FBF7EE; border-radius: 14px; box-shadow: 0 0 0 1px rgba(74,46,28,.18); }
+.cs-toc ol { list-style: none; margin: 0; padding: 0 10px 12px; display: grid; gap: 2px; }
+.cs-toc a {
+  display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 6px 10px; border-radius: 8px;
+  color: var(--ink); text-decoration: none; font-size: 16px; line-height: 1.25;
+}
+.cs-toc a:hover { background: rgba(47,93,80,.08); }
+.cs-toc-no { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--jade); color: var(--jade); font-size: 12px; font-weight: 700; }
+.cs-toc a[aria-current="true"] { background: rgba(47,93,80,.12); font-weight: 700; }
+.cs-toc a[aria-current="true"] .cs-toc-no { background: var(--jade); color: #fff; }
+
+@media (min-width: 1100px) {
+  .cs-layout { grid-template-columns: 250px minmax(0, 1fr); gap: 36px; align-items: start; }
+  .cs-layout.is-empty { grid-template-columns: 1fr; }
+  .cs-toc { position: sticky; top: 128px; }
+  .cs-toc-box {
+    background: none; box-shadow: none; border-radius: 0; padding: 0 10px 4px;
+    border-style: solid; border-width: 96px 24px 40px;
+    border-image: url("../images/ui/scroll-panel.webp") 215 56 86 56 fill;
+    filter: drop-shadow(0 6px 10px rgba(43,33,24,.2));
+  }
+  .cs-toc-box summary { pointer-events: none; justify-content: center; margin-top: -30px; padding: 0 0 10px; }
+  .cs-toc-box summary::after, .cs-toc-box[open] summary::after { content: none; }
+  .cs-toc ol { padding: 0 0 6px; }
+  .cs-toc a { font-size: 15px; padding: 5px 6px; }
+}
+
+/* ภาพรวม */
+.cs-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 12px; margin: 0; }
+.cs-overview div { padding: 14px 16px; background: #fff; border-radius: 12px; box-shadow: 0 0 0 1px rgba(74,46,28,.14); }
+.cs-overview dt { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--jade); }
+.cs-overview dd { margin: 6px 0 0; font-size: 17px; line-height: 1.45; }
+
+/* ปัญหาและเป้าหมาย */
+.cs-split { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+.cs-users { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.cs-users strong { font: 400 19px/1.2 var(--font-head); }
+.cs-users span { font-size: 16px; line-height: 1.55; color: var(--ink-soft); }
+.cs-table { border-radius: 14px; overflow: hidden; box-shadow: 0 0 0 1px rgba(74,46,28,.18); background: #fff; }
+.cs-row { display: grid; grid-template-columns: 1fr 36px 1fr; gap: 0 8px; align-items: center; padding: 14px 20px; font-size: 16px; line-height: 1.5; }
+.cs-row + .cs-row { border-top: 1px solid rgba(74,46,28,.12); }
+.cs-row-head { background: var(--accent); color: var(--on-accent); font: 400 17px/1.2 var(--font-head); }
+.cs-row:not(.cs-row-head) span:first-child { color: var(--ink-soft); }
+.cs-row:not(.cs-row-head) span:last-child { font-weight: 700; }
+.cs-arrow { text-align: center; color: var(--vermilion); font-size: 20px; }
+
+/* การตัดสินใจ: ภาพสลับข้างกับข้อความ */
+.cs-decision { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 36px; align-items: start; padding-top: 8px; }
+.cs-decision + .cs-decision { border-top: 1px dashed rgba(74,46,28,.25); padding-top: 32px; }
+.cs-decision.is-flipped { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+.cs-decision.is-flipped .cs-decision-text { order: 2; }
+.cs-kicker { font-size: 14px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--vermilion); }
+.cs-decision h3 { font: 400 26px/1.2 var(--font-head); margin: 4px 0 14px; }
+.cs-decision dl { margin: 0; display: grid; gap: 6px; }
+.cs-decision dt { font-weight: 700; color: var(--jade); margin-top: 8px; }
+.cs-decision dd { margin: 0; font-size: 17px; line-height: 1.65; }
+
+/* Before / After, กลุ่มหน้าจอ, Design system */
+.cs-compare { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: start; }  /* ก่อน → หลัง เรียงบนลงล่าง ภาพจะใหญ่พออ่าน */
+.cs-compare.is-single { grid-template-columns: minmax(0, 1fr); }
+.cs-group { display: grid; gap: 18px; }
+.cs-group + .cs-group { border-top: 1px dashed rgba(74,46,28,.25); padding-top: 28px; }
+.cs-spot .cs-figure { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); column-gap: 28px; align-items: start; }
+.cs-spot .cs-shot, .cs-spot figcaption { grid-column: 1; }
+.cs-spot .cs-pin-notes { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; }
+.cs-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.cs-grid-ds .cs-shot { background: #fff; }
+
+/* ผลลัพธ์ */
+.cs-outcomes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+
+/* ผลงานก่อน / ถัดไป */
+.cs-pager { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; margin-top: 40px; }
+.cs-pager-card {
+  display: grid; grid-template-columns: 120px 1fr; grid-template-rows: auto 1fr; column-gap: 14px; align-items: center;
+  padding: 12px; background: #FBF7EE; border-radius: 14px; color: var(--ink); text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(74,46,28,.18);
+}
+.cs-pager-card:hover { box-shadow: 0 0 0 2px var(--vermilion); }
+.cs-pager-card img { grid-row: 1 / span 2; width: 120px; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 8px; }
+.cs-pager-label { font-size: 14px; color: var(--ink-soft); align-self: end; }
+.cs-pager-card strong { font: 400 20px/1.2 var(--font-head); align-self: start; }
+
+/* แท็บเล็ต */
+@media (max-width: 1099px) {
+  .cs-decision, .cs-decision.is-flipped { grid-template-columns: minmax(0, 1fr); }
+  .cs-decision.is-flipped .cs-decision-text { order: 0; }
+  .cs-spot .cs-figure { grid-template-columns: minmax(0, 1fr); }
+  .cs-spot .cs-pin-notes { grid-column: 1; grid-row: auto; }
+}
+@media (max-width: 860px) {
+  .cs-split, .cs-compare, .cs-grid { grid-template-columns: minmax(0, 1fr); }
+  .cs-pager { grid-template-columns: 1fr; }
+  .cs-pager-all { justify-self: center; order: 3; }
+  /* หลังคาบนจอเล็ก: ไม่ติดค้างตอนเลื่อน → ไม่บังเนื้อหา */
+  .page-project .topbar { position: relative; height: 92px; padding: 12px 64px 0; }
+  .page-project .topbar::after { border-width: 0 70px; }
+  .cs-section, .cs-toc { scroll-margin-top: 16px; }
+}
+/* มือถือ */
+@media (max-width: 560px) {
+  .page-project .topbar { padding: 10px 44px 0; height: 84px; }
+  .page-project .topbar .btn { min-height: 36px; padding: 6px 10px; font-size: 14px; }
+  .page-project .topbar .btn svg { display: none; }
+  .cs-row { grid-template-columns: 1fr; gap: 4px; }
+  .cs-arrow { text-align: left; transform: rotate(90deg); width: 20px; }
+  .cs-row-head span:nth-child(2) { display: none; }
+  
+  .cs-head h2 { font-size: 24px; }
+  .cs-no { width: 44px; height: 46px; font-size: 16px; }
+  .cs-pin { width: 24px; height: 24px; font-size: 13px; border-width: 2px; }
+  .cs-pager-card { grid-template-columns: 90px 1fr; }
+  .cs-pager-card img { width: 90px; }
+  .lightbox[open] { grid-template-columns: 44px 1fr 44px; }
+}
+
+/* 13b. ภาพที่กดขยายได้: ขอบโค้งและเส้นบางแบบเดียวกับการ์ด (ไม่มีกรอบลาย) */
+.cs-shot, .cs-hero .cs-shot { padding: 0; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px rgba(74,46,28,.14); }
+.cs-shot:hover, .cs-hero .cs-shot:hover { box-shadow: 0 0 0 2px var(--accent); }
+.cs-shot-inner { position: relative; display: block; }
+.cs-shot .cs-pin, .cs-zoom { z-index: 2; }
+
+/* ป้ายประเภทงานใต้คำอธิบายสั้น */
+.cs-tags { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.cs-tags li { padding: 6px 14px; border-radius: 999px; border: 1.5px solid rgba(74,46,28,.35); background: rgba(255,255,255,.55); font-size: 15px; }
+
+/* หมายเหตุ "ภาพรวมระบบ ไม่ใช่ส่วนที่เราออกแบบ" */
+.cs-context-note { padding: 12px 16px; border-radius: 12px; background: rgba(184,134,43,.12); border-left: 4px solid var(--gold); font-size: 16px; line-height: 1.6; max-width: 72ch; }
+
+/* หน้าจอมือถือ (ภาพสูงมาก): แสดงกว้างเท่าโทรศัพท์ ไม่ยืดเต็มคอลัมน์ */
+.cs-figure.is-phone .cs-shot, .cs-figure.is-phone figcaption { width: 100%; max-width: 380px; margin-inline: auto; }
+.cs-figure.is-phone .cs-pin-notes { max-width: 420px; margin-inline: auto; }
+
+/* ชื่อรอง ใต้ชื่อโปรเจกต์ (เช่น Job Sync — Account & Candidate Onboarding) */
+.cs-subtitle { display: block; margin-top: 8px; font-size: clamp(22px, 3vw, 32px); color: var(--ink-soft); }
+
+/* หน้าจอ Desktop ที่ยาวมาก (เช่น หน้า Preview): จำกัดความกว้าง ไม่ให้ยาวเกินจอ */
+.cs-figure.is-tall .cs-shot, .cs-figure.is-tall figcaption { width: 100%; max-width: 560px; margin-inline: auto; }
+.cs-figure.is-tall .cs-pin-notes { max-width: 560px; margin-inline: auto; }
+
+/* Before / After วางคู่ซ้ายขวา (หน้าจอขนาดเดียวกัน) · จอเล็กเรียงบนลงล่าง */
+@media (min-width: 861px) { .cs-compare.is-side { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cs-compare + .cs-lead { margin-top: 18px; padding-top: 26px; border-top: 1px dashed rgba(74,46,28,.25); }
+
+/* ภาพปกใต้ชื่อโปรเจกต์: ขนาดเท่ากันทุกโปรเจกต์ (16:9 เต็มกรอบ) */
+.cs-hero .cs-shot { aspect-ratio: 16 / 9; }
+.cs-hero .cs-shot-inner { height: 100%; }
+.cs-hero .cs-shot img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+
+/* การ์ดผลงานในแผง UX/UI: ล็อกภาพปก 16:9 ทุกใบ (ภาพสัดส่วนอื่นจะถูกครอปให้เต็มกรอบ ไม่ดันความสูง) */
+#work-grid .work-card .work-cover { aspect-ratio: 16 / 9; position: relative; overflow: hidden; }
+#work-grid .work-card .work-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
