@@ -112,6 +112,199 @@ const CASE_SECTIONS = [
 */
 const PROJECTS = [
   {
+    id: "insurverse",
+    title: "Insurverse",
+    client: "Insurverse Public Company Limited (TIP Holdings group)",
+    category: "InsurTech · Car insurance",
+    tags: ["Mobile UI", "PWA", "Insurance"],
+    accent: "#13B89E",
+    cover: "images/projects/insurverse/cover.webp",
+    hero: "images/projects/insurverse/cover.webp",
+    summary: "An online car insurance platform. I took over the mobile screens for financial endorsement in Release 3.5.",
+    overview: {
+      role: "UX/UI Designer, taking over the mobile design mid-project",
+      scope: "Release 3.5 · Financial endorsement: UI screens and components for selected modules",
+      team: "Design 1 · BA 1 · PM 1 · Developers",
+      duration: "A little over a month",
+      platform: "PWA (mobile)",
+      status: "Delivered",
+      tools: "Figma"
+    },
+    problem: {
+      context: `<p>Insurverse sells car insurance online from start to finish: customers compare packages, buy, do the vehicle inspection online, pay, and receive the policy by email.</p>
+                <p>After buying, some customers need to change their policy in a way that affects the premium, so they may pay more or get money back. This is a <strong>financial endorsement</strong>. Release 3.5 brought these changes to the mobile app, and I took over the design of selected modules from the previous designer.</p>`,
+      users: [
+        { name: "Insurverse policyholders", need: "Change an existing car policy from their phone and see clearly what it will cost" }
+      ],
+      goals: [
+        "Screens that customers find easy to use",
+        "Keep the look consistent with the rest of the Insurverse product while continuing someone else's design"
+      ],
+      source: "Requirements came from the client through the BA."
+    },
+    flowsNote: "System context: the overall Insurverse purchase journey and structure. These show where the product sits; they are not the part I designed.",
+    flows: [
+      { src: "images/projects/insurverse/user-flow.webp", caption: "Insurverse purchase journey (system context): vehicle and driver details → compare packages → online vehicle inspection → payment → confirmation" },
+      { src: "images/projects/insurverse/wireframes.webp", caption: "Product wireframes (system context): sign-up, choosing coverage, coverage details and payment" }
+      // { src: "images/projects/insurverse/sitemap.webp", caption: "Sitemap" }  ← ซ่อนไว้: กล่องบนสุดในภาพเขียนว่า "GISTDA Green Office Website" (ผิด) รอ export ใหม่
+    ],
+    // หน้าจอจริงจาก Module ที่ออกแบบ (ข้อมูลส่วนตัวในภาพถูกเบลอแล้ว) · phone: true = แสดงขนาดจอมือถือ
+    decisions: [
+      {
+        title: "Split a long policy into two tabs",
+        problem: "A car policy holds the coverage amounts and a long list of vehicle, owner, driver and beneficiary details. As one page on a phone it becomes a very long scroll, and people lose track of where they are.",
+        approach: "The policy page has two tabs: Coverage, and Policy information. The plan name, its status and the Send request button stay at the top of both tabs.",
+        why: "Each tab answers one question: what am I covered for, and what is on my policy. The trade-off is that the details are one tap away instead of on the same screen.",
+        image: { src: "images/projects/insurverse/endorse-coverage.webp", caption: "Policy detail: Coverage tab", phone: true,
+          pins: [
+            { x: 68, y: 11.3, text: "Send request: start a change to this policy" },
+            { x: 50, y: 18.4, text: "Two tabs: Coverage, and Policy information" },
+            { x: 75, y: 24.7, text: "The plan itself is shown read-only" },
+            { x: 82, y: 44.3, text: "Edit buttons sit next to the parts that can change" },
+            { x: 18, y: 96.8, text: "Download the policy documents" }
+          ] }
+      },
+      {
+        title: "Start each change from the section it belongs to",
+        problem: "Customers usually change one thing at a time, such as adding a driver or updating accessories. Sending them through one long edit form for a single change is slow and easy to get wrong.",
+        approach: "Every block that can change (vehicle, owner, drivers, beneficiary, policy delivery, accessories, dashcam) has its own edit button beside its heading.",
+        why: "People go straight to the part they want to change. The trade-off is many edit buttons on one screen, so they all use the same small outlined icon button and stay in the same position.",
+        image: { src: "images/projects/insurverse/endorse-policy-info.webp", caption: "Policy detail: Policy information tab (personal data blurred)", phone: true,
+          pins: [
+            { x: 60, y: 12.6, text: "Policy information tab" },
+            { x: 82, y: 13.4, text: "Each block has its own edit button" },
+            { x: 50, y: 54, text: "Several drivers in one card, separated by a divider" },
+            { x: 18, y: 97.7, text: "Download the policy documents" }
+          ] }
+      }
+    ],
+    finalDesign: [],    // รอภาพหน้าจอแก้ไขข้อมูล / สรุปเบี้ยที่เปลี่ยน / ชำระเงินเพิ่ม-คืนเงิน
+    designSystem: {
+      text: "Components in the Insurverse style, shown with their states.",
+      items: [
+        { src: "images/projects/insurverse/ds-buttons.webp", caption: "Buttons" },
+        { src: "images/projects/insurverse/ds-checkbox.webp", caption: "Checkbox states" },
+        { src: "images/projects/insurverse/ds-input.webp", caption: "Input states" },
+        { src: "images/projects/insurverse/ds-icons.webp", caption: "Icons" }
+      ]
+    },
+    handoff: `<ul>
+                <li>Continued from the previous designer's file, matching the existing theme and components</li>
+                <li>Handed over to developers as a Figma file</li>
+              </ul>`,
+    delivered: `<ul>
+                  <li>Mobile UI screens for selected financial-endorsement modules in Release 3.5</li>
+                  <li>The components those screens needed</li>
+                </ul>`,
+    trackMetrics: [
+      "Share of customers who start a policy change and finish it",
+      "Where people drop out of the endorsement steps",
+      "Support contacts about policy changes and extra payments or refunds"
+    ],
+    notes: "ไม่มี usability test / feedback · ตัวเลขเว็บเดิม (−35%, CSAT 4.8, WCAG AA) ไม่มีที่มา → ไม่ใช้ · ภาพ Flow/Wireframe/ปก จาก PDF = ภาพรวมระบบ ไม่ใช่ส่วนที่ออกแบบเอง"
+  },
+  {
+    id: "bki",
+    title: "BKI Revamp",
+    subtitle: "Car insurance issuing system",
+    client: "Bangkok Insurance",
+    category: "InsurTech · Web system",
+    tags: ["Insurance", "Policy issuing", "Form design"],
+    accent: "#1F4E9C",
+    cover: "images/projects/bki/cover.webp",
+    hero: "images/projects/bki/cover.webp",
+    summary: "A redesign of Bangkok Insurance's web system for quoting premiums and issuing car insurance policies, including compulsory motor insurance (CMI).",
+    overview: { role: "UX/UI Designer at Extend IT Resource", scope: TODO, team: TODO, duration: TODO, platform: "Web", status: TODO, tools: TODO },
+    problem: {
+      context: `<p>The system is where policies are prepared for customers. From one menu, users can look up their quotations, request a quotation and record the details needed to issue a policy, manage and print policy documents, handle renewals, and endorse or cancel a policy.</p>
+                <p>Issuing a policy needs a lot of information: the policy number, the vehicle type, brand and model, the coverage period, the premium, and the customer's details and address. The redesign focused on making this long form readable and taking people through it one step at a time.</p>`
+    },
+    decisions: [
+      {
+        title: "Break issuing into four steps, with sections that close as you go",
+        problem: "Issuing a policy asks for the policy number, the vehicle, its details and the customer. On one page it is a very long form, and it is easy to lose your place.",
+        approach: "Four steps with a progress bar: policy number, basic vehicle information, vehicle details, and customer record. Inside a step, each group of questions is a section with its own Next button and can be collapsed.",
+        why: "People always see where they are and how much is left, and finished sections get out of the way. The trade-off is more clicks than a single long form.",
+        image: { src: "images/projects/bki/step2-vehicle.webp", caption: "Step 2: basic vehicle information",
+          pins: [
+            { x: 86.1, y: 14, text: "Each section can be collapsed" },
+            { x: 40.4, y: 31, text: "Vehicle type chosen from picture cards" },
+            { x: 40.4, y: 53.5, text: "Common brands as logo buttons, the rest in the dropdown" },
+            { x: 75, y: 45.5, text: "Each section has its own Next" },
+            { x: 72, y: 97.4, text: "Check premium stays inactive until the required fields are filled" }
+          ] }
+      },
+      {
+        title: "Show the premium breakdown before committing",
+        problem: "Once the vehicle is known, the user needs the price before deciding whether to issue a policy now or just give the customer a quotation.",
+        approach: "A summary panel shows the net premium, stamp duty, VAT and the total. Underneath, two actions split the path: request a quotation, or continue to the vehicle details to issue the policy.",
+        why: "The price is clear at the moment of decision, and a quotation does not force anyone through the rest of the form. The trade-off is one more decision point in the flow.",
+        image: { src: "images/projects/bki/step2-premium.webp", caption: "Premium check: net premium, stamp duty, VAT and total",
+          pins: [
+            { x: 4, y: 73, text: "Net premium, stamp duty and VAT add up to the total" },
+            { x: 57, y: 84.5, text: "Request a quotation for the customer" },
+            { x: 74.5, y: 84.5, text: "Or continue to issue the policy" }
+          ] }
+      },
+      {
+        title: "Turn the choices that change the form into large option cards",
+        problem: "Some answers decide which fields come next, such as where the policy number comes from. Hidden in a dropdown, they are easy to miss or choose wrongly.",
+        approach: "Three cards with icons: request a number from the system, use a reserved number, or renew an existing policy. The selected card is highlighted and only the fields for that option appear underneath.",
+        why: "The options are visible side by side, and people only see the fields that apply. The trade-off is that the cards take more space than a dropdown.",
+        image: { src: "images/projects/bki/step1-policy-number.webp", caption: "Step 1: choose how to get the policy number",
+          pins: [
+            { x: 15, y: 13.1, text: "Four-step progress bar" },
+            { x: 63.3, y: 30, text: "Three ways to get a policy number, as cards" },
+            { x: 85.6, y: 30, text: "The selected option is highlighted" },
+            { x: 63.3, y: 68.2, text: "Check stays inactive until the required fields are filled" }
+          ] }
+      }
+    ],
+    finalDesign: [
+      {
+        title: "Start from one menu",
+        text: "Five main tasks sit on the home screen as cards with an icon, a title and a short description.",
+        shots: [
+          { src: "images/projects/bki/home-menu.webp", caption: "Main menu",
+            pins: [
+              { x: 14.7, y: 29.2, text: "Each task is a card with an icon and a short description" },
+              { x: 41.2, y: 47.2, text: "Endorsing or cancelling a policy has its own entry" }
+            ] }
+        ]
+      },
+      {
+        title: "Record the customer",
+        text: "The last step keeps the total premium, the car and the quotation number at the top. The address can be looked up from the ID card or entered new, and the remaining sections stay collapsed until needed.",
+        shots: [
+          { src: "images/projects/bki/step4-customer.webp", caption: "Step 4: customer record", tall: true,
+            pins: [
+              { x: 86.2, y: 9.7, text: "Total premium, car and quotation number stay at the top" },
+              { x: 51.4, y: 55.2, text: "Look up the address from the ID card, or enter a new one" },
+              { x: 86.1, y: 86.8, text: "Other sections stay collapsed until needed" },
+              { x: 63.4, y: 97.4, text: "Save, or notify to issue the policy" }
+            ] }
+        ]
+      },
+      {
+        title: "After issuing",
+        text: "Imported CMI data is checked before it is sent, with the number of rows that passed and failed. The policy detail page summarises the policy and lets people choose which documents to print.",
+        shots: [
+          { src: "images/projects/bki/import-result.webp", caption: "CMI import: check the data before sending (personal data blurred)",
+            pins: [
+              { x: 16.2, y: 26.8, text: "How many rows passed and failed" },
+              { x: 80.8, y: 48.1, text: "Confirm to send the data into the system" }
+            ] },
+          { src: "images/projects/bki/policy-detail.webp", caption: "Policy detail and documents to print (personal data blurred)",
+            pins: [
+              { x: 52, y: 76.8, text: "Choose which documents to print" },
+              { x: 80.9, y: 94.3, text: "Print stays inactive until a document is chosen" }
+            ] }
+        ]
+      }
+    ],
+    notes: "ผู้ใช้ = เจ้าหน้าที่/คู่ค้าที่ออกกรมธรรม์ (เดาจากช่อง เลขที่อ้างอิงของคู่ค้า, Agent seq.) — รอยืนยัน · เว็บเดิม: DS/WCAG/−4 wks — ยังไม่ยืนยัน"
+  },
+  {
     id: "gistda",
     title: "GISTDA Green Office",
     client: "GISTDA",
@@ -257,98 +450,6 @@ const PROJECTS = [
     reflection: TODO,
     pdf: TODO,
     notes: "PDF เดิมระบุผู้ใช้ 4 กลุ่ม (staff, executives, partners, public) และ 'fully responsive' / 'automated carbon calculation' — ยังไม่ยืนยัน จึงไม่ใช้"
-  },
-  {
-    id: "insurverse",
-    title: "Insurverse",
-    client: "Insurverse Public Company Limited (TIP Holdings group)",
-    category: "InsurTech · Car insurance",
-    tags: ["Mobile UI", "PWA", "Insurance"],
-    accent: "#13B89E",
-    cover: "images/projects/insurverse/cover.webp",
-    hero: "images/projects/insurverse/cover.webp",
-    summary: "An online car insurance platform. I took over the mobile screens for financial endorsement in Release 3.5.",
-    overview: {
-      role: "UX/UI Designer, taking over the mobile design mid-project",
-      scope: "Release 3.5 · Financial endorsement: UI screens and components for selected modules",
-      team: "Design 1 · BA 1 · PM 1 · Developers",
-      duration: "A little over a month",
-      platform: "PWA (mobile)",
-      status: "Delivered",
-      tools: "Figma"
-    },
-    problem: {
-      context: `<p>Insurverse sells car insurance online from start to finish: customers compare packages, buy, do the vehicle inspection online, pay, and receive the policy by email.</p>
-                <p>After buying, some customers need to change their policy in a way that affects the premium, so they may pay more or get money back. This is a <strong>financial endorsement</strong>. Release 3.5 brought these changes to the mobile app, and I took over the design of selected modules from the previous designer.</p>`,
-      users: [
-        { name: "Insurverse policyholders", need: "Change an existing car policy from their phone and see clearly what it will cost" }
-      ],
-      goals: [
-        "Screens that customers find easy to use",
-        "Keep the look consistent with the rest of the Insurverse product while continuing someone else's design"
-      ],
-      source: "Requirements came from the client through the BA."
-    },
-    flowsNote: "System context: the overall Insurverse purchase journey and structure. These show where the product sits; they are not the part I designed.",
-    flows: [
-      { src: "images/projects/insurverse/user-flow.webp", caption: "Insurverse purchase journey (system context): vehicle and driver details → compare packages → online vehicle inspection → payment → confirmation" },
-      { src: "images/projects/insurverse/wireframes.webp", caption: "Product wireframes (system context): sign-up, choosing coverage, coverage details and payment" }
-      // { src: "images/projects/insurverse/sitemap.webp", caption: "Sitemap" }  ← ซ่อนไว้: กล่องบนสุดในภาพเขียนว่า "GISTDA Green Office Website" (ผิด) รอ export ใหม่
-    ],
-    // หน้าจอจริงจาก Module ที่ออกแบบ (ข้อมูลส่วนตัวในภาพถูกเบลอแล้ว) · phone: true = แสดงขนาดจอมือถือ
-    decisions: [
-      {
-        title: "Split a long policy into two tabs",
-        problem: "A car policy holds the coverage amounts and a long list of vehicle, owner, driver and beneficiary details. As one page on a phone it becomes a very long scroll, and people lose track of where they are.",
-        approach: "The policy page has two tabs: Coverage, and Policy information. The plan name, its status and the Send request button stay at the top of both tabs.",
-        why: "Each tab answers one question: what am I covered for, and what is on my policy. The trade-off is that the details are one tap away instead of on the same screen.",
-        image: { src: "images/projects/insurverse/endorse-coverage.webp", caption: "Policy detail: Coverage tab", phone: true,
-          pins: [
-            { x: 68, y: 11.3, text: "Send request: start a change to this policy" },
-            { x: 50, y: 18.4, text: "Two tabs: Coverage, and Policy information" },
-            { x: 75, y: 24.7, text: "The plan itself is shown read-only" },
-            { x: 82, y: 44.3, text: "Edit buttons sit next to the parts that can change" },
-            { x: 18, y: 96.8, text: "Download the policy documents" }
-          ] }
-      },
-      {
-        title: "Start each change from the section it belongs to",
-        problem: "Customers usually change one thing at a time, such as adding a driver or updating accessories. Sending them through one long edit form for a single change is slow and easy to get wrong.",
-        approach: "Every block that can change (vehicle, owner, drivers, beneficiary, policy delivery, accessories, dashcam) has its own edit button beside its heading.",
-        why: "People go straight to the part they want to change. The trade-off is many edit buttons on one screen, so they all use the same small outlined icon button and stay in the same position.",
-        image: { src: "images/projects/insurverse/endorse-policy-info.webp", caption: "Policy detail: Policy information tab (personal data blurred)", phone: true,
-          pins: [
-            { x: 60, y: 12.6, text: "Policy information tab" },
-            { x: 82, y: 13.4, text: "Each block has its own edit button" },
-            { x: 50, y: 54, text: "Several drivers in one card, separated by a divider" },
-            { x: 18, y: 97.7, text: "Download the policy documents" }
-          ] }
-      }
-    ],
-    finalDesign: [],    // รอภาพหน้าจอแก้ไขข้อมูล / สรุปเบี้ยที่เปลี่ยน / ชำระเงินเพิ่ม-คืนเงิน
-    designSystem: {
-      text: "Components in the Insurverse style, shown with their states.",
-      items: [
-        { src: "images/projects/insurverse/ds-buttons.webp", caption: "Buttons" },
-        { src: "images/projects/insurverse/ds-checkbox.webp", caption: "Checkbox states" },
-        { src: "images/projects/insurverse/ds-input.webp", caption: "Input states" },
-        { src: "images/projects/insurverse/ds-icons.webp", caption: "Icons" }
-      ]
-    },
-    handoff: `<ul>
-                <li>Continued from the previous designer's file, matching the existing theme and components</li>
-                <li>Handed over to developers as a Figma file</li>
-              </ul>`,
-    delivered: `<ul>
-                  <li>Mobile UI screens for selected financial-endorsement modules in Release 3.5</li>
-                  <li>The components those screens needed</li>
-                </ul>`,
-    trackMetrics: [
-      "Share of customers who start a policy change and finish it",
-      "Where people drop out of the endorsement steps",
-      "Support contacts about policy changes and extra payments or refunds"
-    ],
-    notes: "ไม่มี usability test / feedback · ตัวเลขเว็บเดิม (−35%, CSAT 4.8, WCAG AA) ไม่มีที่มา → ไม่ใช้ · ภาพ Flow/Wireframe/ปก จาก PDF = ภาพรวมระบบ ไม่ใช่ส่วนที่ออกแบบเอง"
   },
   {
     id: "job-sync",
@@ -531,35 +632,6 @@ const PROJECTS = [
       "How often password rules fail, and password-reset requests"
     ],
     notes: "ยังไม่ยืนยัน: ประเภท/ที่มาของงาน, ทีม, ระยะเวลา, เครื่องมือ, สถานะ, feedback/test, handoff · 'AI job recommendations' ตัดออกจากคำอธิบาย (ยังไม่ยืนยัน)"
-  },
-  {
-    id: "bki",
-    title: "BKI Revamp",
-    client: "Bangkok Insurance",
-    category: "InsurTech · Website redesign",
-    tags: ["Website redesign", "Insurance", "Form design"],
-    accent: "#1F4E9C",
-    cover: "images/projects/bki/cover.webp",
-    hero: "images/projects/bki/cover.webp",
-    summary: "A redesign of Bangkok Insurance's online car insurance form and package comparison website.",
-    overview: { role: "UX/UI Designer at Extend IT Resource", scope: TODO, team: TODO, duration: TODO, platform: "Web", status: TODO, tools: TODO },
-    problem: { context: `<p>The website lets customers enter their vehicle details, choose a type of coverage, and compare packages. The redesign focused on readability and on taking people through the form one step at a time.</p>` },
-    finalDesign: [
-      {
-        title: "Applying for car insurance",
-        text: "The form is split into steps with a progress bar, and each group of questions sits in its own section that can be collapsed.",
-        shots: [
-          { src: "images/projects/bki/screen.webp", caption: "Insurance application: basic vehicle information",
-            pins: [
-              { x: 37, y: 16, text: "Progress bar across the four steps of the application" },
-              { x: 92, y: 29, text: "Each group of questions can be collapsed" },
-              { x: 66, y: 58, text: "Vehicle type chosen with large picture buttons" },
-              { x: 80, y: 81, text: "Next moves on to the following section" }
-            ] }
-        ]
-      }
-    ],
-    notes: "เว็บเดิม: ไม่มี DS เดิม สร้าง DS ไปพร้อมกัน, WCAG AA, 1 DS ใช้ 3 ผลิตภัณฑ์, ลด handoff 4 สัปดาห์, PM อยากข้าม accessibility — ยังไม่ยืนยัน ไม่แสดง"
   },
   {
     id: "roddonjai",

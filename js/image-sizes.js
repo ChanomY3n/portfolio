@@ -4,9 +4,33 @@ const IMAGE_SIZES = {
 2000,
 1125
 ],
-"images/projects/bki/screen.webp": [
-1020,
-855
+"images/projects/bki/home-menu.webp": [
+2000,
+1333
+],
+"images/projects/bki/import-result.webp": [
+2000,
+1333
+],
+"images/projects/bki/policy-detail.webp": [
+2000,
+1485
+],
+"images/projects/bki/step1-policy-number.webp": [
+2000,
+1350
+],
+"images/projects/bki/step2-premium.webp": [
+2000,
+1250
+],
+"images/projects/bki/step2-vehicle.webp": [
+2000,
+2693
+],
+"images/projects/bki/step4-customer.webp": [
+2000,
+3896
 ],
 "images/projects/gistda/cover.webp": [
 1120,
